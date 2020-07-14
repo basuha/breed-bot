@@ -18,13 +18,14 @@ public class RestWebController {
 	private MessageRepo messageRepo;
 
 	@GetMapping(value = "/all")
-	public Response getResource() {
+	public Response getAllMessages() {
 		return new Response("Done", messageRepo.findAll());
 	}
 
 	@PostMapping(value = "/save")
-	public Response postCustomer(@RequestBody Message message) {
+	public Response postMessage(@RequestBody Message message) {
 		messageRepo.save(message);
+
 		
 		// Create Response Object
 		return new Response("Done", null);

@@ -25,7 +25,7 @@ $( document ).ready(function() {
 			data : JSON.stringify(formData),
 			dataType : 'json',
 			success : function(result) {
-				if(result.status == "Done"){
+				if(result.status === "Done"){
 					$("#postResultDiv").html("<h1>" + result.data.username + ": " + result.data.message + "</h1>");
 				}else{
 					$("#postResultDiv").html("<strong>Error</strong>");

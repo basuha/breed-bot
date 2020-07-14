@@ -1,19 +1,18 @@
 package com.basuha.breed_bot.message;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
-@AllArgsConstructor
+@ToString
 @NoArgsConstructor
-@Entity
-public class User {
+@Table(name = "usr")
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

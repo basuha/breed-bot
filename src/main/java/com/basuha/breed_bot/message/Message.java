@@ -4,13 +4,15 @@ import lombok.*;
 import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
+@Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
-@AllArgsConstructor
-@Entity
-public class Message {
+@Table(name = "msg")
+public class Message implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -18,7 +20,7 @@ public class Message {
 
     private String message;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
 }
