@@ -9,5 +9,6 @@ public class Test {
     public static void main(String[] args) {
         RestService restService = new RestService(new RestTemplateBuilder());
         System.out.println(restService.getBreedListPlainJSON());
+
     }
 }
