@@ -1,15 +1,9 @@
 package com.basuha.breed_bot.message;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GeneratorType;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -21,6 +15,10 @@ public class Message {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+
     private String message;
-    private String username;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
 }

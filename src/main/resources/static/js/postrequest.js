@@ -51,8 +51,12 @@ $( document ).ready(function() {
 					$('#getResultDiv ul').empty();
 					$.each(result.data, function(i, customer){
 						$('#getResultDiv .list-group').append(
-							"<b>" + customer.username + "</b>"
-							+ ": " + customer.message + "<br>")
+						'<li class="list-group-item list-group-item-warning">'
+							+ customer.username
+							+ ': '
+							+ customer.message
+							+ '<br>'
+							+ '</li>')
 					});
 					console.log("Success: ", result);
 				}else{
