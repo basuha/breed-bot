@@ -4,6 +4,7 @@ import com.basuha.breed_bot.message.Message;
 import com.basuha.breed_bot.message.Response;
 import com.basuha.breed_bot.message.User;
 import com.basuha.breed_bot.repository.MessageRepo;
+import com.basuha.breed_bot.service.BreedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,9 @@ public class RestWebController {
 
 	@Autowired
 	private MessageRepo messageRepo;
+
+	@Autowired
+	private BreedService breedService;
 
 	@GetMapping(value = "/all")
 	public Response getAllMessages() {
@@ -33,11 +37,12 @@ public class RestWebController {
 	@GetMapping(value = "/response")
 	public Response sendMessageToUser() {
 		Message response = new Message();
-		response.setText("Hello from bot");
+		String url = "https://dog.ceo/api/breed/ovcharka/images/random";
+		response.setText(breedService.getPlainJSON(url));
 //		response.setAuthor(user);
 		messageRepo.save(response);
 
 		// Create Response Object
-		return new Response("Done", response); //TODO:
+		return new Response("Done", breedService.parseResponse(response)); //TODO:
 	}
 }

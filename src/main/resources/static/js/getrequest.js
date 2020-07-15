@@ -13,12 +13,12 @@ $( document ).ready(function() {
             success: function (result) {
                 if (result.status === "Done") {
                     $('#getResultDiv ul').empty();
-                    $.each(result.data, function (i, message) {
+                    $.each(result.message, function (i, m) {
                         $('#getResultDiv .list-group').append(
                             '<li class="list-group-item list-group-item-warning">'
-                            + message.author.username
+                            // + m.author.username
                             + ': '
-                            + message.text
+                            + m.text
                             + '<br>'
                             + '</li>')
                     });

@@ -24,10 +24,10 @@ $( document ).ready(function() {
 			success : function(result) {
 				$('#getResultDiv .list-group').append(
 					'<li class="list-group-item list-group-item-warning">'
-					// + result.data.author.username
+					// + result.message.author.username
 					+ 'dummy'
 					+ ': '
-					+ result.data.text
+					+ result.message.text
 					+ '<br>'
 					+ '</li>')
 				console.log(result);
@@ -55,9 +55,9 @@ $( document ).ready(function() {
 				if (result.status === "Done") {
 					$('#getResultDiv .list-group').append(
 						'<li class="list-group-item list-group-item-warning">'
-						// + result.author.username
+						// + result.message.author.username
 						+ ': '
-						+ result.data.text
+						+ '<img src="'+ result.message.message.toString() +'"/>'
 						+ '<br>'
 						+ '</li>')
 					console.log("Success: ", result);
