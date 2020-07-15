@@ -18,20 +18,22 @@ $( document ).ready(function() {
         $.ajax({
             type: "GET",
             url: window.location + "api/customer/all",
+                // + JSON.stringify(document.currentUserId),
             success: function (result) {
                 if (result.status === "Done") {
                     $('#getResultDiv ul').empty();
                     $.each(result.message, function (i, m) {
                         $('#getResultDiv .list-group').append(
-                            '<li class="card" style="width: 18rem;">'
-                            // + m.author.username
-                            + ': ' )
-                            .append(
-                                isJsonString(m.text)
-                                    ? '<img class="card-img-top" src="' + m.text + '</img>'
-                                    : m.text
-                            ).append(
-                            + '<br>'
+                            '<li class="list-group-item">'
+                            + m.text
+                            // // + m.author.username
+                            // + ': ' )
+                            // .append(
+                            //     isJsonString(m.text)
+                            //         ? '<img class="card-img-top" src="' + m.text + '</img>'
+                            //         : m.text
+                            // ).append(
+                            // + '<br>'
                             + '</li>')
                     });
                     console.log("Success: ", result);

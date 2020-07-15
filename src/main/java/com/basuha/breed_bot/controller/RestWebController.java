@@ -6,11 +6,9 @@ import com.basuha.breed_bot.message.User;
 import com.basuha.breed_bot.repository.MessageRepo;
 import com.basuha.breed_bot.service.BreedService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.security.PermitAll;
 
 @RestController
 @RequestMapping("/api/customer")

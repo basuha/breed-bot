@@ -1,8 +1,10 @@
 <#import "parts/common.ftl" as c>
-
+<#include "parts/security.ftl">
 <@c.page>
+	<input type="hidden" name="_csrf" value="${_csrf.token}">
+	<div class="navbar-text mr-3 bg-warning">${name}</div>
 	<form action="/logout" method="post">
-		<button class="btn btn-primary" type="submit">Sign Out</button>
+		<button class="btn btn-primary" type="submit">Выйти</button>
 		<input type="hidden" name="_csrf" value="${_csrf.token}">
 	</form>
 	<div class="card-header">
@@ -11,7 +13,6 @@
 				Breed Bot
 			</h1>
 		</span>
-
 	</div>
 	<div class=form-group">
 		<form id="customerForm">

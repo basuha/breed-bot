@@ -11,8 +11,11 @@ $( document ).ready(function() {
     function ajaxPost(){
     	// PREPARE FORM DATA
     	var formData = {
-    		text : $("#message").val(),
+    		text : $("#message").val()
+			// author : $('#username').val()
     	}
+
+		var token =  $('input[name="_csrf"]').attr('value')
     	
     	// DO POST
     	$.ajax({
@@ -21,14 +24,17 @@ $( document ).ready(function() {
 			url : window.location + "api/customer/save",
 			data : JSON.stringify(formData),
 			dataType : 'json',
+			headers: {
+				'X-CSRF-Token': token
+			},
 			success : function(result) {
 				$('#getResultDiv .list-group').append(
-					'<li class="list-group-item list-group-item-warning">'
+					'<li class="list-group-item">'
 					// + result.message.author.username
 					+ 'dummy'
 					+ ': '
 					+ result.message.text
-					+ '<br>'
+					// + '<br>'
 					+ '</li>')
 				console.log(result);
 			},
@@ -54,7 +60,7 @@ $( document ).ready(function() {
 			success: function (result) {
 				if (result.status === "success") {
 					$('#getResultDiv .list-group').append(
-						'<li class="card" style="width: 18rem;">'
+						'<li class="list-group-item">'
 						// + result.message.author.username
 						+ '<img class="card-img-top" src="'+ result.message +'"/>'
 						+ '<br>'

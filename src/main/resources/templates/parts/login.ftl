@@ -1,8 +1,9 @@
 <#macro login path isRegisterForm>
+    <div class="container-md">
+
     <form action="${path}" method="post">
         <div class="form-group">
-            <input type="text" class="form-control" name="username" id="username" aria-describedby="emailHelp" placeholder="Как вас зовут?">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <input type="text" class="form-control" name="username" id="username" placeholder="Как вас зовут?">
         </div>
         <div class="form-group">
             <input type="password" class="form-control" name="password" id="password" placeholder="Введите пароль...">
@@ -15,4 +16,6 @@
             <a href="/register">Add new user</a>
         </#if>
     </form>
+
+    </div>
 </#macro>
