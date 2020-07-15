@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class MessageService {
-    private final Queue<Message> requestQueue = new ConcurrentLinkedQueue<>();
 
 
 

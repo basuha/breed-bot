@@ -12,7 +12,7 @@ $( document ).ready(function() {
     	// PREPARE FORM DATA
     	var formData = {
     		text : $("#message").val(),
-			author : $('input[name="user"]').attr('value'),
+			user_id : $('input[name="userId"]').attr('value'),
     	}
 
     	console.log(formData)
