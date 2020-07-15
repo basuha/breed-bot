@@ -16,9 +16,10 @@ public class Message implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(nullable = false, insertable = false, updatable = false)
     private Long id;
 
-    private String message;
+    private String text;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")

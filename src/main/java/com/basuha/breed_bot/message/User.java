@@ -16,12 +16,13 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(nullable = false, insertable = false, updatable = false)
     private Long id;
 
     private String username;
 
     private String password;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Message> messageList;
+//    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private List<Message> messageList;
 }

@@ -25,9 +25,17 @@ public class RestWebController {
 	@PostMapping(value = "/save")
 	public Response postMessage(@RequestBody Message message) {
 		messageRepo.save(message);
-
-		
+		Message response = new Message();
+		response.setText("asdasddasdasasdasd");
 		// Create Response Object
-		return new Response("Done", null);
+		return new Response("Done", message); //TODO:
 	}
+//
+//	@PostMapping(value = "/save")
+//	public Response sendMessageToUser(@RequestBody Message message) {
+//		messageRepo.save(message);
+//
+//		// Create Response Object
+//		return new Response("Done", message); //TODO:
+//	}
 }

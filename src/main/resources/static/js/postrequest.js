@@ -4,17 +4,14 @@ $( document ).ready(function() {
     $("#customerForm").submit(function(event) {
 		// Prevent the form from submitting via the browser.
 		event.preventDefault();
-		ajaxGet();
 		ajaxPost();
-		ajaxGet();
 	});
     
     
     function ajaxPost(){
-    	
     	// PREPARE FORM DATA
     	var formData = {
-    		message : $("#message").val(),
+    		text : $("#message").val(),
     	}
     	
     	// DO POST
@@ -25,11 +22,14 @@ $( document ).ready(function() {
 			data : JSON.stringify(formData),
 			dataType : 'json',
 			success : function(result) {
-				if(result.status === "Done"){
-					$("#postResultDiv").html("<h1>" + result.data.username + ": " + result.data.message + "</h1>");
-				}else{
-					$("#postResultDiv").html("<strong>Error</strong>");
-				}
+				$('#getResultDiv .list-group').append(
+					'<li class="list-group-item list-group-item-warning">'
+					// + result.data.author.username
+					+ 'dummy'
+					+ ': '
+					+ result.data.text
+					+ '<br>'
+					+ '</li>')
 				console.log(result);
 			},
 			error : function(e) {
@@ -41,35 +41,6 @@ $( document ).ready(function() {
     	// Reset FormData after Posting
     	resetData();
     }
-
-	function ajaxGet(){
-		$.ajax({
-			type : "GET",
-			url : window.location + "api/customer/all",
-			success: function(result){
-				if(result.status === "Done"){
-					$('#getResultDiv ul').empty();
-					$.each(result.data, function(i, customer){
-						$('#getResultDiv .list-group').append(
-						'<li class="list-group-item list-group-item-warning">'
-							+ customer.username
-							+ ': '
-							+ customer.message
-							+ '<br>'
-							+ '</li>')
-					});
-					console.log("Success: ", result);
-				}else{
-					$("#getResultDiv").html("<strong>Error</strong>");
-					console.log("Fail: ", result);
-				}
-			},
-			error: function(e) {
-				$("#getResultDiv").html("<strong>Error</strong>");
-				console.log("ERROR: ", e);
-			}
-		});
-	}
     
     function resetData(){
     	$("#message").val("");
