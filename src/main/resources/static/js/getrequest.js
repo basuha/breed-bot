@@ -1,10 +1,18 @@
 $( document ).ready(function() {
-
-    // // GET REQUEST
-    // $("#getAllCustomerId").(function (event) {
+    //
+    // $("#getAllCustomerId").post(function (event) {
     //     event.preventDefault();
         ajaxGet();
     // });
+
+    function isJsonString(message) {
+        try {
+            JSON.parse(message);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
 
     function ajaxGet() {
         $.ajax({
@@ -15,10 +23,14 @@ $( document ).ready(function() {
                     $('#getResultDiv ul').empty();
                     $.each(result.message, function (i, m) {
                         $('#getResultDiv .list-group').append(
-                            '<li class="list-group-item list-group-item-warning">'
+                            '<li class="card" style="width: 18rem;">'
                             // + m.author.username
-                            + ': '
-                            + m.text
+                            + ': ' )
+                            .append(
+                                isJsonString(m.text)
+                                    ? '<img class="card-img-top" src="' + m.text + '</img>'
+                                    : m.text
+                            ).append(
                             + '<br>'
                             + '</li>')
                     });

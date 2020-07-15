@@ -1,6 +1,10 @@
 <#import "parts/common.ftl" as c>
 
 <@c.page>
+	<form action="/logout" method="post">
+		<button class="btn btn-primary" type="submit">Sign Out</button>
+		<input type="hidden" name="_csrf" value="${_csrf.token}">
+	</form>
 	<div class="card-header">
 		<span class="badge badge-secondary">
 			<h1>
@@ -13,6 +17,7 @@
 		<form id="customerForm">
 			<div>
 				<input class="form-control" type="text" id="message" placeholder="Написать сообщение..."/>
+				<input type="hidden" name="_csrf" value="${_csrf.token}">
 			</div>
 			<button type="submit" class="btn btn-primary" style="margin-left:20px; margin-right:5px">Отправить</button>
 		</form>

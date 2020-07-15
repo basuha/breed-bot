@@ -2,5 +2,5 @@
 <#import "parts/login.ftl" as l>
 
 <@f.page>
-    <@l.login "/login" false/>
+    <@l.login "/register" true/>
 </@f.page>

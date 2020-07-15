@@ -54,10 +54,9 @@ $( document ).ready(function() {
 			success: function (result) {
 				if (result.status === "success") {
 					$('#getResultDiv .list-group').append(
-						'<li class="list-group-item list-group-item-warning">'
+						'<li class="card" style="width: 18rem;">'
 						// + result.message.author.username
-						+ ': '
-						+ '<img src="'+ result.message.toString() +'"/>'
+						+ '<img class="card-img-top" src="'+ result.message +'"/>'
 						+ '<br>'
 						+ '</li>')
 					console.log("Success: ", result);
