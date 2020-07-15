@@ -26,8 +26,9 @@ public class RestWebController {
 	}
 
 	@PostMapping(value = "/save")
-	public Response postMessage(@RequestBody Message message) {
-		messageRepo.save(message);
+	public Response postMessage(@RequestBody String message) {
+		messageRepo.save(breedService.jsonToMessage(message));
+		System.out.println(message);
 		// Create Response Object
 		return new Response("Done", message); //TODO:
 	}

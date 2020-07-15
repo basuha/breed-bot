@@ -11,11 +11,14 @@ $( document ).ready(function() {
     function ajaxPost(){
     	// PREPARE FORM DATA
     	var formData = {
-    		text : $("#message").val()
-			// author : $('#username').val()
+    		text : $("#message").val(),
+			author : $('input[name="user"]').attr('value'),
     	}
 
+    	console.log(formData)
+
 		var token =  $('input[name="_csrf"]').attr('value')
+		var username = $('input[name="username"]').attr('value')
     	
     	// DO POST
     	$.ajax({
@@ -31,9 +34,9 @@ $( document ).ready(function() {
 				$('#getResultDiv .list-group').append(
 					'<li class="list-group-item">'
 					// + result.message.author.username
-					+ 'dummy'
+					+ username
 					+ ': '
-					+ result.message.text
+					+ formData.text
 					// + '<br>'
 					+ '</li>')
 				console.log(result);
@@ -78,3 +81,23 @@ $( document ).ready(function() {
 		});
 	}
 })
+
+//
+// $.ajax({
+// 	url: '<url-адрес>',
+// 	type: 'post',
+// 	data: '<отправляемые_данные>', // можно строкой, а можно, например, так: $('input[type="text"], input[type="radio"]:checked, input[type="checkbox"]:checked, select, textarea')
+// 	dataType: 'json',
+// 	beforeSend: function() {
+// 		$('#sendajax').button('loading');
+// 	},
+// 	complete: function() {
+// 		$('#sendajax').button('reset');
+// 	},
+// 	success: function(json) {
+// 		// какие-то действия с полученными данными
+// 	},
+// 	error: function(xhr, ajaxOptions, thrownError) {
+// 		alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+// 	}
+// });

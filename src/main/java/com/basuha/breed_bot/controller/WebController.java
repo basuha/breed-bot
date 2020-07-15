@@ -31,7 +31,7 @@ public class WebController {
             @RequestParam String password,
             Model model
     ) {
-        if (!userService.addUser(new User(username,password))) {
+        if (!userService.addUser(new User(1233L, username,password))) { //TODO: пофиксить
             model.addAttribute("usernameError", "User exists!");
             return "register";
         }

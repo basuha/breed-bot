@@ -2,6 +2,8 @@
 <#include "parts/security.ftl">
 <@c.page>
 	<input type="hidden" name="_csrf" value="${_csrf.token}">
+	<input type="hidden" name="user" value="${user}">
+	<input type="hidden" name="username" value="${name}">
 	<div class="navbar-text mr-3 bg-warning">${name}</div>
 	<form action="/logout" method="post">
 		<button class="btn btn-primary" type="submit">Выйти</button>
