@@ -57,9 +57,10 @@ $( document ).ready(function() {
     }
 
 	function getResponseFromBot() {
+
 		$.ajax({
 			type: "GET",
-			url: window.location + "api/customer/response",
+			url: window.location + "api/customer/response?chatId=" + $('input[name="userId"]').attr('value'),
 			success: function (result) {
 				console.log(result.data)
 				if (result.status === "success") {
