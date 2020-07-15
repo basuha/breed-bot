@@ -2,6 +2,7 @@ package com.basuha.breed_bot.controller;
 
 import com.basuha.breed_bot.message.Message;
 import com.basuha.breed_bot.message.Response;
+import com.basuha.breed_bot.message.User;
 import com.basuha.breed_bot.repository.MessageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,17 +26,18 @@ public class RestWebController {
 	@PostMapping(value = "/save")
 	public Response postMessage(@RequestBody Message message) {
 		messageRepo.save(message);
-		Message response = new Message();
-		response.setText("asdasddasdasasdasd");
 		// Create Response Object
 		return new Response("Done", message); //TODO:
 	}
-//
-//	@PostMapping(value = "/save")
-//	public Response sendMessageToUser(@RequestBody Message message) {
-//		messageRepo.save(message);
-//
-//		// Create Response Object
-//		return new Response("Done", message); //TODO:
-//	}
+
+	@GetMapping(value = "/response")
+	public Response sendMessageToUser() {
+		Message response = new Message();
+		response.setText("Hello from bot");
+//		response.setAuthor(user);
+		messageRepo.save(response);
+
+		// Create Response Object
+		return new Response("Done", response); //TODO:
+	}
 }

@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "usr")
 public class User implements Serializable {
 

@@ -40,9 +40,36 @@ $( document ).ready(function() {
     	
     	// Reset FormData after Posting
     	resetData();
+    	getResponseFromBot()
     }
     
     function resetData(){
     	$("#message").val("");
     }
+
+	function getResponseFromBot() {
+		$.ajax({
+			type: "GET",
+			url: window.location + "api/customer/response",
+			success: function (result) {
+				if (result.status === "Done") {
+					$('#getResultDiv .list-group').append(
+						'<li class="list-group-item list-group-item-warning">'
+						// + result.author.username
+						+ ': '
+						+ result.data.text
+						+ '<br>'
+						+ '</li>')
+					console.log("Success: ", result);
+				} else {
+					$("#getResultDiv").html("<strong>Error</strong>");
+					console.log("Fail: ", result);
+				}
+			},
+			error: function (e) {
+				$("#getResultDiv").html("<strong>Error</strong>");
+				console.log("ERROR: ", e);
+			}
+		});
+	}
 })
