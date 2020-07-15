@@ -61,10 +61,12 @@ $( document ).ready(function() {
 			type: "GET",
 			url: window.location + "api/customer/response",
 			success: function (result) {
+				console.log(result.data)
 				if (result.status === "success") {
 					$('#getResultDiv .list-group').append(
 						'<li class="list-group-item">'
-						// + result.message.author.username
+						+ '<b>Breed Bot</b>'
+						+ ' : '
 						+ '<img class="card-img-top" src="'+ result.message +'"/>'
 						+ '<br>'
 						+ '</li>')

@@ -64,6 +64,6 @@ public class BreedService {
     }
 
     public Response parseResponse(Message message) {
-        return gson.fromJson(message.getText(), Response.class);
+        return gson.fromJson(message.getData(), Response.class);
     }
 }

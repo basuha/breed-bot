@@ -37,6 +37,9 @@ public class Message implements Serializable {
     @JsonProperty("user_id")
     @Column(name = "user_id")
     private Long userId;
+
+    @JsonProperty("data")
+    private String data;
 //
 //    @JsonProperty("data")
 //    private String data;

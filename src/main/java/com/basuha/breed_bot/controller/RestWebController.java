@@ -32,19 +32,24 @@ public class RestWebController {
 	@PostMapping(value = "/save")
 	public Response postMessage(@RequestBody String request) {
 		Message message = breedService.jsonToMessage(request);
-		messageRepo.save(message);
 		requestQueue.offer(message);
-		System.out.println(request);
-		// Create Response Object
+		messageRepo.save(message);
 		return new Response("Done", request); //TODO:
 	}
 
 	@GetMapping(value = "/response")
 	public Response sendMessageToUser() {
-		Message response = requestQueue.poll();
+		Message request;
+		for(;;) {
+			request = requestQueue.poll();
+			if (request != null)
+				break;
+		}
+
+		Message response = new Message();
 		String url = "https://dog.ceo/api/breed/ovcharka/images/random";
-		response.setText(breedService.getPlainJSON(url));
-//		response.setAuthor(user);
+		response.setData(breedService.getPlainJSON(url));
+		response.setText("Картинка по запросу: " + request.getText());
 		messageRepo.save(response);
 
 		// Create Response Object
