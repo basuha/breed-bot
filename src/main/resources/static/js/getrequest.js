@@ -15,6 +15,7 @@ $( document ).ready(function() {
         return true;
     }
     var username = $('input[name="username"]').attr('value')
+    var botName = '<b>Breed Bot</b>';
     function ajaxGet() {
 
         $.ajax({
@@ -38,9 +39,17 @@ $( document ).ready(function() {
                             // ).append(
                             // + '<br>'
                             + '</li>')
-                        document.getElementById("scroll").scrollTo(0,document.getElementById("scroll").scrollHeight)
                     });
+
+                    $('#getResultDiv .list-group').append(
+                        '<li class="list-group-item bg-warning"> '
+                        + botName + ' : '
+                        + 'Добрый день, ' + username + '! Меня зовут Breed bot. Чем могу помочь?'
+                        + '</li>')
+
+                    document.getElementById("scroll").scrollTo(0,document.getElementById("scroll").scrollHeight)
                     console.log("Success: ", result);
+
                 } else {
                     $("#getResultDiv").html("<strong>Error</strong>");
                     console.log("Fail: ", result);

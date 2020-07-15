@@ -65,13 +65,14 @@ $( document ).ready(function() {
 				console.log(result.data)
 				if (result.status === "success") {
 					$('#getResultDiv .list-group').append(
-						'<li class="list-group-item">'
+						'<li class="list-group-item bg-warning">'
 						+ '<b>Breed Bot</b>'
 						+ ' : '
 						+ '<img class="card-img-top" src="'+ result.message +'"/>'
 						+ '<br>'
 						+ '</li>')
 					console.log("Success: ", result);
+					document.getElementById("scroll").scrollTo(0,document.getElementById("scroll").scrollHeight)
 				} else {
 					$("#getResultDiv").html("<strong>Error</strong>");
 					console.log("Fail: ", result);
@@ -80,8 +81,9 @@ $( document ).ready(function() {
 			error: function (e) {
 				$("#getResultDiv").html("<strong>Error</strong>");
 				console.log("ERROR: ", e);
-			}
+			},
 		});
+
 	}
 })
 

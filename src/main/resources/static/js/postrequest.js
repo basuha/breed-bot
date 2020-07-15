@@ -65,7 +65,7 @@ $( document ).ready(function() {
 				console.log(result.data)
 				if (result.status === "success") {
 					$('#getResultDiv .list-group').append(
-						'<li class="list-group-item">'
+						'<li class="list-group-item bg-warning">'
 						+ '<b>Breed Bot</b>'
 						+ ' : '
 						+ '<img class="card-img-top" src="'+ result.message +'"/>'
