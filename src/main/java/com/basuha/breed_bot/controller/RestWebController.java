@@ -43,6 +43,6 @@ public class RestWebController {
 		messageRepo.save(response);
 
 		// Create Response Object
-		return new Response("Done", breedService.parseResponse(response)); //TODO:
+		return breedService.parseResponse(response); //TODO:
 	}
 }

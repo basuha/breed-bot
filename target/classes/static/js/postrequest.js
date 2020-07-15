@@ -52,12 +52,12 @@ $( document ).ready(function() {
 			type: "GET",
 			url: window.location + "api/customer/response",
 			success: function (result) {
-				if (result.status === "Done") {
+				if (result.status === "success") {
 					$('#getResultDiv .list-group').append(
 						'<li class="list-group-item list-group-item-warning">'
 						// + result.message.author.username
 						+ ': '
-						+ '<img src="'+ result.message.message.toString() +'"/>'
+						+ '<img src="'+ result.message.toString() +'"/>'
 						+ '<br>'
 						+ '</li>')
 					console.log("Success: ", result);
