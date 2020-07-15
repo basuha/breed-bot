@@ -2,6 +2,7 @@ package com.basuha.breed_bot.service;
 
 import com.basuha.breed_bot.message.Message;
 import com.basuha.breed_bot.message.Response;
+import com.basuha.breed_bot.message.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;

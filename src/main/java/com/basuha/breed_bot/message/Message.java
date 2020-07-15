@@ -21,7 +21,7 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "text",
-        "author"
+//        "author"
 })
 public class Message implements Serializable {
 
@@ -34,8 +34,15 @@ public class Message implements Serializable {
     @JsonProperty("text")
     private String text;
 
-    @JsonProperty("author")
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User author;
+    @JsonProperty("user_id")
+    @Column(name = "user_id")
+    private Long userId;
+//
+//    @JsonProperty("data")
+//    private String data;
+
+//    @JsonProperty("author")
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private User author;
 }

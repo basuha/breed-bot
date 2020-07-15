@@ -12,6 +12,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -65,8 +66,7 @@ public class User implements UserDetails, Serializable {
     public boolean isEnabled() {
         return true;
     }
-
-
+//
 //    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    private List<Message> messageList;
+//    private Set<Message> messageList;
 }

@@ -22,6 +22,12 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+//    public static void main(String[] args) {
+//        for (var asd : userRepo.findById(1L).get().getMessageList()) {
+//            System.out.println(asd);
+//        }
+//    }
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userRepo.findByUsername(s);
