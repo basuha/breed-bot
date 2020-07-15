@@ -15,9 +15,10 @@ $( document ).ready(function() {
     }
 
     function ajaxGet() {
+        var username = $('input[name="username"]').attr('value')
         $.ajax({
             type: "GET",
-            url: window.location + "api/customer/all",
+            url: window.location + "api/customer?chatId=" + $('input[name="userId"]').attr('value'),
                 // + JSON.stringify(document.currentUserId),
             success: function (result) {
                 if (result.status === "Done") {
@@ -25,8 +26,9 @@ $( document ).ready(function() {
                     $.each(result.message, function (i, m) {
                         $('#getResultDiv .list-group').append(
                             '<li class="list-group-item">'
+                            + username
+                            + " : "
                             + m.text
-                            // // + m.author.username
                             // + ': ' )
                             // .append(
                             //     isJsonString(m.text)

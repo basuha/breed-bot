@@ -26,9 +26,9 @@ public class RestWebController {
 
 	private final Map<Long,Queue<Message>> requestQueue = new HashMap<>();
 
-	@GetMapping(value = "/all")
-	public Response getAllMessages() {
-		return new Response("Done", messageRepo.findAll());
+	@GetMapping()
+	public Response getAllMessages(@RequestParam Long chatId) {
+		return new Response("Done", messageRepo.getByUserId(chatId));
 	}
 
 	@PostMapping(value = "/save")
