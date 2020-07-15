@@ -16,6 +16,18 @@
 			</h1>
 		</span>
 	</div>
+
+
+<#--		<div class="col-sm-7" id="postResultDiv">-->
+<#--		</div>-->
+	<div id="scroll" class="mx-auto" style="height:600px;width:500px;overflow:auto;scrollbar-base-color:blue;padding:10px;">
+	<div class="col-sm-7" style="margin:20px 0px 20px 0px">
+		<div id="getResultDiv" style="padding:20px 10px 20px 50px">
+			<ul class="list-group">
+			</ul>
+		</div>
+	</div>
+	</div>
 	<div class=form-group">
 		<form id="customerForm">
 			<div>
@@ -24,15 +36,5 @@
 			</div>
 			<button type="submit" class="btn btn-primary" style="margin-left:20px; margin-right:5px">Отправить</button>
 		</form>
-	</div>
-
-<#--		<div class="col-sm-7" id="postResultDiv">-->
-<#--		</div>-->
-
-	<div class="col-sm-7" style="margin:20px 0px 20px 0px">
-		<div id="getResultDiv" style="padding:20px 10px 20px 50px">
-			<ul class="list-group">
-			</ul>
-		</div>
 	</div>
 </@c.page>

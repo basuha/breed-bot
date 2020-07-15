@@ -1,3 +1,4 @@
+
 $( document ).ready(function() {
     //
     // $("#getAllCustomerId").post(function (event) {
@@ -13,9 +14,9 @@ $( document ).ready(function() {
         }
         return true;
     }
-
+    var username = $('input[name="username"]').attr('value')
     function ajaxGet() {
-        var username = $('input[name="username"]').attr('value')
+
         $.ajax({
             type: "GET",
             url: window.location + "api/customer?chatId=" + $('input[name="userId"]').attr('value'),
@@ -27,7 +28,7 @@ $( document ).ready(function() {
                         $('#getResultDiv .list-group').append(
                             '<li class="list-group-item">'
                             + username
-                            + " : "
+                                + " : "
                             + m.text
                             // + ': ' )
                             // .append(
@@ -37,6 +38,7 @@ $( document ).ready(function() {
                             // ).append(
                             // + '<br>'
                             + '</li>')
+                        document.getElementById("scroll").scrollTo(0,document.getElementById("scroll").scrollHeight)
                     });
                     console.log("Success: ", result);
                 } else {
@@ -49,5 +51,7 @@ $( document ).ready(function() {
                 console.log("ERROR: ", e);
             }
         });
+
+
     }
 })

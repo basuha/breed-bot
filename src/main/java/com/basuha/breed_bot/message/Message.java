@@ -40,6 +40,10 @@ public class Message implements Serializable {
 
     @JsonProperty("data")
     private String data;
+
+    @JsonProperty("is_bot_message")
+    @Column(name = "is_bot_message")
+    private Boolean isBotMessage;
 //
 //    @JsonProperty("data")
 //    private String data;

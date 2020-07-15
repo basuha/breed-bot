@@ -72,6 +72,7 @@ $( document ).ready(function() {
 						+ '<br>'
 						+ '</li>')
 					console.log("Success: ", result);
+					document.getElementById("scroll").scrollTo(0,document.getElementById("scroll").scrollHeight)
 				} else {
 					$("#getResultDiv").html("<strong>Error</strong>");
 					console.log("Fail: ", result);
@@ -80,8 +81,9 @@ $( document ).ready(function() {
 			error: function (e) {
 				$("#getResultDiv").html("<strong>Error</strong>");
 				console.log("ERROR: ", e);
-			}
+			},
 		});
+
 	}
 })
 
