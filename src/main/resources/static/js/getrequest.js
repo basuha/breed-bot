@@ -1,49 +1,62 @@
-var username = $('input[name="username"]').attr('value')
-var botName = '<b>Breed Bot</b>';
+var username
+var botName
+var chatId
 
-function addMessageToChat(m) {
-    if (m.is_bot_message === true) {
-        if (m.type === "image") {
-            $('#getResultDiv .list-group').append(
-                '<li class="list-group-item bg-warning">'
-                + '<b>Breed Bot</b>'
-                + ' : '
-                + m.text
-                + '<img class="card-img-top" style="width: 50%; height: 50%" src="' + JSON.parse(m.data).message + '"/>'
-                + '</li>')
-        } else if (m.type === "list") {
-            $('#getResultDiv .list-group').append(
-                '<li class="list-group-item bg-warning">'
-                + '<b>Breed Bot</b>'
-                + ' : '
-                + breedList()
-                + '</li>')
-        } else {
-            $('#getResultDiv .list-group').append(
-                '<li class="list-group-item bg-warning">'
-                + '<b>Breed Bot</b>'
-                + ' : '
-                + m.text)
-        }
-    } else {
-        $('#getResultDiv .list-group').append(
-            '<li class="list-group-item">'
-            + username
-            + " : "
-            + m.text
-            + '</li>')
-    }
+function scrollDown() {
+    document.getElementById("scroll").scrollTo(0,document.getElementById("scroll").scrollHeight)
 }
 
-$( document ).ready(function() {
+function addMessageToChat(m) {
+    if (m != null) {
+        if (m.is_bot_message === true) {
+            if (m.type === "image") {
+                $('#getResultDiv .list-group').append(
+                    '<li class="list-group-item bg-warning">'
+                    + '<b>Breed Bot</b>'
+                    + ' : '
+                    + m.text
+                    + '</br>'
+                    + '<img class="card-img-top" style="width: 50%; height: 50%" src="' + JSON.parse(m.data).message + '"/>'
+                    + '</li>')
+            } else if (m.type === "list") {
+                $('#getResultDiv .list-group').append(
+                    '<li class="list-group-item bg-warning">'
+                    + '<b>Breed Bot</b>'
+                    + ' : '
+                    + breedList()
+                    + '</li>')
+            } else {
+                $('#getResultDiv .list-group').append(
+                    '<li class="list-group-item bg-warning">'
+                    + '<b>Breed Bot</b>'
+                    + ' : '
+                    + m.text)
+            }
+        } else {
+            $('#getResultDiv .list-group').append(
+                '<li class="list-group-item">'
+                + username
+                + " : "
+                + m.text
+                + '</li>')
+        }
+    }
+    scrollDown()
+}
+
+$(document).ready(function() {
+    scrollDown()
+    username = $('input[name="username"]').attr('value')
+    botName = '<b>Breed Bot</b>'
+    chatId = $('input[name="userId"]').attr('value')
     ajaxGet();
     function ajaxGet() {
         $.ajax({
             type: "GET",
-            url: window.location + "api/customer?chatId=" + $('input[name="userId"]').attr('value'),
+            url: window.location + "api/customer?chatId=" + chatId,
             success: function (result) {
                 $('#getResultDiv ul').empty();
-                $.each(result.message, function (i, m) {
+                $.each(result, function (i, m) {
                     addMessageToChat(m)
                 });
                 $('#getResultDiv .list-group').append(
@@ -51,7 +64,7 @@ $( document ).ready(function() {
                     + botName + ' : '
                     + 'Добрый день, ' + username + '! Меня зовут Breed bot. Чем могу помочь?'
                     + '</li>')
-                document.getElementById("scroll").scrollTo(0,document.getElementById("scroll").scrollHeight)
+                scrollDown()
                 console.log("Success: ", result);
             },
             error: function (e) {
@@ -63,7 +76,7 @@ $( document ).ready(function() {
 })
 
 
-$( document ).ready(function() {
+$(document).ready(function() {
     $("#customerForm").submit(function(event) {
         event.preventDefault();
         ajaxPost();
@@ -121,8 +134,8 @@ $( document ).ready(function() {
                 $.each(result, function (i, r) {
                     addMessageToChat(r)
                     console.log("Success: ", r);
-                    document.getElementById("scroll").scrollTo(0,document.getElementById("scroll").scrollHeight)
                 })
+                scrollDown()
             },
             error: function (e) {
                 $("#getResultDiv").html("<strong>Error</strong>");

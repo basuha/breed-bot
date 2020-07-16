@@ -87,13 +87,13 @@ public class RestWebController {
 					response.setText(breedService.getRandomBotText());
 					response.setType("image");
 				}
-
-				default -> response.setData(breedService.getRandomDogImage());
+				default -> response = null;
 			}
 			responses.add(response);
-			messageRepo.save(response);
+			if (response != null) {
+				messageRepo.save(response);
+			}
 		}
-
 		System.out.println(responses.size());
 		return responses;
 	}
