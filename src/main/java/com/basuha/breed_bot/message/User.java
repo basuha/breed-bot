@@ -31,7 +31,6 @@ public class User implements UserDetails, Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(nullable = false, insertable = false, updatable = false)
     @JsonProperty("id")
     private Long id;
 

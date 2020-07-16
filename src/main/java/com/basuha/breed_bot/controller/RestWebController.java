@@ -39,10 +39,7 @@ public class RestWebController {
 			Queue<Message> queue = new LinkedList<>();
 			requestQueue.put(chatId, queue);
 		}
-
 		requestQueue.get(chatId).offer(message);
-		messageRepo.save(message);
-
 		return new Response("Done", request); //TODO:
 	}
 
@@ -72,21 +69,29 @@ public class RestWebController {
 
 		if (requests.isEmpty())
 			requests.add(message);
+		messageRepo.save(message);
 
 		for (var request : requests) {
 			Message response = new Message();
-			String url = "https://dog.ceo/api/breeds/image/random"; //TODO:
 
 			switch (request.getText()) {
-				case "list" -> response.setData(breedService.getBreedList());
-				default -> response.setData(breedService.getPlainJSON(url));
+				case "list" -> {
+					response.setData(breedService.getBreedList());
+					response.setText(breedService.getRandomBotText());
+					response.setType("list");
+				}
+				case "random" -> {
+					response.setData(breedService.getRandomDogImage());
+					response.setText(breedService.getRandomBotText());
+					response.setType("image");
+				}
+
+				default -> response.setData(breedService.getRandomDogImage());
 			}
 			response.setUserId(chatId);
 			response.setIsBotMessage(true);
-
-			response.setText("Картинка по запросу: "); //+ request.getText());
 			responses.add(breedService.parseResponse(response));
-			messageRepo.save(request);
+			messageRepo.save(response);
 		}
 
 		System.out.println(responses.size());

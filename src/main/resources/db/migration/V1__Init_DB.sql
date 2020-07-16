@@ -4,7 +4,7 @@ create table msg (
     id int8 not null,
     data varchar(2048),
     is_bot_message boolean,
-    text varchar(255) not null,
+    text varchar(255),
     type varchar(32),
     user_id int8,
     primary key (id)

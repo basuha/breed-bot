@@ -17,7 +17,7 @@ import java.util.*;
 public class BreedService {
 
     @Value("${breed-list-url}")
-    private String BREED_LIST_URL;
+    private String breedListUrl;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -30,11 +30,15 @@ public class BreedService {
 
     @Autowired
     @Qualifier("keyWords")
-    private List<String> KEYWORDS;
+    private List<String> keywords;
 
     @Autowired
     @Qualifier("breedList")
-    private List<String> BREEDLIST;
+    private List<String> breedList;
+
+    @Autowired
+    @Qualifier("randomImageResponseBotTexts")
+    private List<String> botTexts;
 
     @Value("${random-image-url}")
     private String randomImageUrl;
@@ -48,12 +52,20 @@ public class BreedService {
     @Value("${message-split-regex}")
     private String messageSplitRegex;
 
+    public String getRandomDogImage(){
+        return getPlainJSON(randomImageUrl);
+    }
+
+    public String getRandomBotText(){
+        return botTexts.get(new Random().nextInt(botTexts.size()));
+    }
+
     public String getPlainJSON(String URL) {
         return restTemplate.getForObject(URL, String.class);
     }
 
     public String getBreedList() {
-        return getPlainJSON(BREED_LIST_URL);
+        return getPlainJSON(breedListUrl);
     }
 
     public Message jsonToMessage(String json) {
@@ -78,7 +90,7 @@ public class BreedService {
                 .replaceAll(messageParseRegex, "")
                 .replaceAll(messageSplitRegex, " ")
                 .split(" ")) {
-            if(KEYWORDS.contains(s)) {
+            if(keywords.contains(s)) {
                 parsedKeywords.add(s);
             }
         }

@@ -27,7 +27,6 @@ public class Message implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(nullable = false, insertable = false, updatable = false)
     @JsonIgnore
     private Long id;
 

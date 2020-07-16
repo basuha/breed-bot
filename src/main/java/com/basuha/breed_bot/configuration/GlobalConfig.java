@@ -11,15 +11,34 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Configuration
 public class GlobalConfig {
     @Value("${breed-list-url}")
-    private String BREED_LIST_URL;
+    private String breedListUrl;
 
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    public List<String> randomImageResponseBotTexts() {
+        return new ArrayList<>() {{
+            add("Here it is. Your image");
+            add("Here it is. Your photo");
+            add("Please, your image");
+            add("Please, your photo");
+            add("Look what i found!");
+            add("Hope you like this");
+            add("It was hard, but i found");
+            add("It`s dangerous to go alone, take this &#128540;");
+            add("How are you think about this?");
+            add("Not at all!");
+            add("Hope it will be useful");
+            add("Catch!");
+        }};
     }
 
     @Bean
@@ -34,7 +53,8 @@ public class GlobalConfig {
 
     @Bean
     public List<String> breedList() {
-        String breedListJson = restTemplate().getForObject(BREED_LIST_URL, String.class);
+        String breedListJson = restTemplate().getForObject(breedListUrl, String.class);
+        Pattern pattern = Pattern.compile("(\\[.+\\])");
         return Arrays.asList(breedListJson.split("[^a-z]+"));
     }
 
