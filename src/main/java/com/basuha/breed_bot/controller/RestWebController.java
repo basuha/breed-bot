@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.PermitAll;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @RestController
@@ -36,17 +33,18 @@ public class RestWebController {
 	public Response postMessage(@RequestBody String request) {
 		Message message = breedService.jsonToMessage(request);
 		Long chatId = message.getUserId();
+		List<Response> responses = new ArrayList<>();
 
 		if (!requestQueue.containsKey(chatId)){
 			Queue<Message> queue = new ConcurrentLinkedQueue<>();
 			requestQueue.put(chatId, queue);
 		}
 
-		List<String> parsedKeyWords = breedService.parseUserMessage(message.getText());
-		if (!parsedKeyWords.isEmpty())
-			for(var s : parsedKeyWords) {
-				System.out.println(s);
-		}
+//		List<String> parsedKeyWords = breedService.parseUserMessage(message.getText());
+//		if (!parsedKeyWords.isEmpty())
+//			for(var s : parsedKeyWords) {
+//				System.out.println(s);
+//		}
 
 		requestQueue.get(chatId).offer(message);
 		messageRepo.save(message);
@@ -55,23 +53,33 @@ public class RestWebController {
 
 	@GetMapping(value = "/response")
 	@ResponseBody
-	public Response[] sendMessageToUser(@RequestParam Long chatId) {
-		Message request = null;
+	public List<Response> sendMessageToUser(@RequestParam Long chatId) {
+		List<Message> requests = new ArrayList<>();
+		List<Response> responses = new ArrayList<>();
+
 		do {
 			if (requestQueue.containsKey(chatId)){
-				request = requestQueue.get(chatId).poll();
+				do {
+					requests.add(requestQueue.get(chatId).poll());
+				} while (requestQueue.get(chatId).size() > 0);
 			}
-		} while (request == null);
+		} while (requests.isEmpty());
 
-		Message response = new Message();
-		String url = "https://dog.ceo/api/breed/ovcharka/images/random";
-		response.setUserId(chatId);
-		response.setIsBotMessage(true);
-		response.setData(breedService.getPlainJSON(url));
-		response.setText("Картинка по запросу: " + request.getText());
-		messageRepo.save(response);
+		System.out.println(requests.size());
 
-		// Create Response Object
-		return new Response[] {breedService.parseResponse(response), breedService.parseResponse(response)}; //TODO:
+		for (var request : requests) {
+			Message response = new Message();
+
+			String url = "https://dog.ceo/api/breed/ovcharka/images/random"; //TODO:
+			response.setUserId(chatId);
+			response.setIsBotMessage(true);
+			response.setData(breedService.getPlainJSON(url));
+			response.setText("Картинка по запросу: "); //+ request.getText());
+
+			messageRepo.save(response);
+			responses.add(breedService.parseResponse(response));
+		}
+
+		return responses;
 	}
 }
