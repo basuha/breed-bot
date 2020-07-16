@@ -25,9 +25,9 @@ public class RestWebController {
 
 	private final Map<Long,Queue<Message>> requestQueue = new HashMap<>();
 
-	@GetMapping()
-	public Response getAllMessages(@RequestParam Long chatId) {
-		return new Response("Done", messageRepo.getByUserId(chatId));
+	@GetMapping
+	public List<Message> getAllMessages(@RequestParam Long chatId) {
+		return messageRepo.getByUserId(chatId);
 	}
 
 	@PostMapping(value = "/save")
@@ -45,9 +45,9 @@ public class RestWebController {
 
 	@GetMapping(value = "/response")
 	@ResponseBody
-	public List<Response> sendMessageToUser(@RequestParam Long chatId) {
+	public List<Message> sendMessageToUser(@RequestParam Long chatId) {
 		List<Message> requests = new ArrayList<>();
-		List<Response> responses = new ArrayList<>();
+		List<Message> responses = new ArrayList<>();
 		Message message = null;
 
 		do
@@ -73,10 +73,12 @@ public class RestWebController {
 
 		for (var request : requests) {
 			Message response = new Message();
+			response.setStatus("success");
+			response.setUserId(chatId);
+			response.setIsBotMessage(true);
 
 			switch (request.getText()) {
 				case "list" -> {
-					response.setData(breedService.getBreedList());
 					response.setText(breedService.getRandomBotText());
 					response.setType("list");
 				}
@@ -88,14 +90,11 @@ public class RestWebController {
 
 				default -> response.setData(breedService.getRandomDogImage());
 			}
-			response.setUserId(chatId);
-			response.setIsBotMessage(true);
-			responses.add(breedService.parseResponse(response));
+			responses.add(response);
 			messageRepo.save(response);
 		}
 
 		System.out.println(responses.size());
-
 		return responses;
 	}
 }
