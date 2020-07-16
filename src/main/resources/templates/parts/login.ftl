@@ -2,7 +2,7 @@
     <div class="container-md mx-auto" style="width: 50%;">
         <div class="card card-body">
             <#if !isRegisterForm>
-                <h5 class="card-title">Login</h5>
+                <h5 class="card-title">Log in</h5>
             <#else>
                 <h5 class="card-title">Registration</h5>
             </#if>

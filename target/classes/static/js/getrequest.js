@@ -54,7 +54,7 @@ $(document).ready(function() {
     function ajaxGet() {
         $.ajax({
             type: "GET",
-            url: window.location + "api/customer?chatId=" + chatId,
+            url: window.location + "breed-bot?chatId=" + chatId,
             success: function (result) {
                 $('#getResultDiv ul').empty();
                 $.each(result, function (i, m) {
@@ -93,7 +93,7 @@ $(document).ready(function() {
         $.ajax({
             type : "POST",
             contentType : "application/json",
-            url : window.location + "api/customer/save",
+            url : window.location + "breed-bot/save",
             data : JSON.stringify(formData),
             dataType : 'json',
             headers: {
@@ -124,7 +124,7 @@ $(document).ready(function() {
     function getResponseFromBot() {
         $.ajax({
             type: "GET",
-            url: window.location + "api/customer/response?chatId=" + $('input[name="userId"]').attr('value'),
+            url: window.location + "breed-bot/response?chatId=" + $('input[name="userId"]').attr('value'),
             success: function (result) {
                 console.log(result)
                 $.each(result, function (i, r) {
