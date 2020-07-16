@@ -8,8 +8,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
 import org.hibernate.annotations.GeneratorType;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Entity
@@ -32,6 +34,8 @@ public class Message implements Serializable {
     @JsonIgnore
     private Long id;
 
+    @NotBlank(message = "Sorry, message is can not be empty")
+    @Length(max = 255, message = "Sorry, message is too long (longer than 255)")
     @JsonProperty("text")
     private String text;
 

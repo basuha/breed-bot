@@ -31,17 +31,17 @@ public class GlobalConfig {
     @Bean
     public List<String> randomImageResponseBotTexts() {
         return new ArrayList<>() {{
-            add("Here it is. Your image");
-            add("Here it is. Your photo");
-            add("Please, your image");
-            add("Please, your photo");
+            add("Here it is. Your image:");
+            add("Here it is. Your photo:");
+            add("Please, your image:");
+            add("Please, your photo:");
             add("Look what i found!");
-            add("Hope you like this");
-            add("It was hard, but i found");
+            add("Hope you like this:");
+            add("It was hard, but i found:");
             add("It`s dangerous to go alone, take this &#128540;");
             add("How are you think about this?");
             add("Not at all!");
-            add("Hope it will be useful");
+            add("Hope it will be useful:");
             add("Catch!");
         }};
     }

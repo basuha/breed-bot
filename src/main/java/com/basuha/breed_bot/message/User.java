@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -34,9 +35,11 @@ public class User implements UserDetails, Serializable {
     @JsonProperty("id")
     private Long id;
 
+    @NotBlank(message = "Please, enter your name")
     @JsonProperty("username")
     private String username;
 
+    @NotBlank(message = "Sorry, password must not be empty")
     @JsonProperty("password")
     private String password;
 

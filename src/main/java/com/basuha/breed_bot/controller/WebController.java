@@ -5,9 +5,13 @@ import com.basuha.breed_bot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 public class WebController {
@@ -27,16 +31,20 @@ public class WebController {
 
     @PostMapping("/register")
     public String addUser(
-            @RequestParam String username,
-            @RequestParam String password,
+            @Valid User user,
+            BindingResult bindingResult,
             Model model
     ) {
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        if (!userService.addUser(user)) { //TODO: пофиксить
-            model.addAttribute("usernameError", "User exists!");
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("user",user);
             return "register";
+        } else {
+            if (!userService.addUser(user)) { //TODO: пофиксить
+                model.addAttribute("usernameError", "User exists!");
+                return "register";
+            }
         }
         return "redirect:login";
     }
