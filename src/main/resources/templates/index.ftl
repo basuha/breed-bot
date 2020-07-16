@@ -4,6 +4,7 @@
 	<input type="hidden" name="_csrf" value="${_csrf.token}">
 	<input type="hidden" name="userId" value="${currentUserId}">
 	<input type="hidden" name="username" value="${name}">
+
 	<div class="navbar-text mr-3 bg-warning">${name}</div>
 	<form action="/logout" method="post">
 		<button class="btn btn-primary" type="submit">Выйти</button>
@@ -27,14 +28,13 @@
 			</ul>
 		</div>
 	</div>
-	</div>
-	<div class=form-group>
-		<form id="customerForm">
-			<div>
-				<input class="form-control" type="text" id="message" placeholder="Написать сообщение..."/>
-				<input type="hidden" name="_csrf" value="${_csrf.token}">
+
+	<form id="messageForm">
+		<div class="input-group mb-3">
+			<input type="text" id="message" class="form-control" placeholder="Message here...">
+			<div class="input-group-append">
+				<button class="btn btn-outline-primary" type="submit">Send</button>
 			</div>
-			<button type="submit" class="btn btn-primary" style="margin-left:20px; margin-right:5px">Отправить</button>
-		</form>
-	</div>
+		</div>
+	</form>
 </@c.page>

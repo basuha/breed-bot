@@ -11,7 +11,7 @@ function addMessageToChat(m) {
         if (m.is_bot_message === true) {
             if (m.type === "image") {
                 $('#getResultDiv .list-group').append(
-                    '<li class="list-group-item bg-warning">'
+                    '<li class="list-group-item bg-warning ">'
                     + '<b>Breed Bot</b>'
                     + ' : '
                     + m.text
@@ -73,7 +73,7 @@ $(document).ready(function() {
 
 
 $(document).ready(function() {
-    $("#customerForm").submit(function(event) {
+    $("#messageForm").submit(function(event) {
         event.preventDefault();
         ajaxPost();
     });
@@ -150,7 +150,7 @@ function breedList(){
                 if(breeds[dog].length>=1) {
                     for(let i = 0; i < breeds[dog].length; i++) {
                         $('#getResultDiv .list-group').append(
-                            '<button type="button" class="btn btn-secondary" value="'
+                            '<option value="'
                             + dog
                             + '-' + breeds[dog][i]
                             + '">'
@@ -158,16 +158,16 @@ function breedList(){
                             + breeds[dog][i]
                             + ' '
                             + dog
-                            + '</button>');
+                            + '</option>');
                     }
                 }
                 else if(breeds[dog].length<1){
                     $('#getResultDiv .list-group').append(
-                        '<l value="'
+                        '<option value="'
                         + dog
                         + '">'
                         + dog
-                        + '</l>');
+                        + '</option>');
                 }
             }
         );
