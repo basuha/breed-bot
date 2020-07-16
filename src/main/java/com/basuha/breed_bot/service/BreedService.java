@@ -50,6 +50,9 @@ public class BreedService {
     @Value("${random-image-of-breed-url}")
     private String randomImageOfBreedUrl;
 
+    @Value("${random-image-of-sub-breed-url}")
+    private String randomImageOfSubBreedUrl;
+
     @Value("${breed-list-url}")
     private String breedListUrl;
 
@@ -61,6 +64,19 @@ public class BreedService {
 
     public String getRandomDogImage() {
         return getPlainJSON(randomImageUrl);
+    }
+
+    public String getRandomDogImageByBreed(String breed) {
+        String url;
+        if (breed.contains(" ")) {
+            String[] spliced = breed.split(" ");
+            url = String.format(randomImageOfSubBreedUrl, spliced[1], spliced[0]);
+            System.out.println(url);
+        } else {
+            url = String.format(randomImageOfBreedUrl, breed);
+            System.out.println(url);
+        }
+        return getPlainJSON(url);
     }
 
     public String getRandomBotText() {
@@ -92,13 +108,32 @@ public class BreedService {
 
     public List<String> parseUserMessage(String message) {
         List<String> parsedKeywords = new ArrayList<>();
-
-        for (var s : message.toLowerCase()
+        List<String> parsed = Arrays.asList(message.toLowerCase()
                 .replaceAll(messageParseRegex, "")
                 .replaceAll(messageSplitRegex, " ")
-                .split(" ")) {
-            if(keywords.contains(s)) {
+                .split(" "));
+        ListIterator<String> iterator = parsed.listIterator();
+
+        while (iterator.hasNext()) { //TODO: improve algorithm
+            String s = iterator.next();
+            if (keywords.contains(s))
                 parsedKeywords.add(s);
+
+            if (iterator.hasNext()) {
+                String next = iterator.next();
+                if (breedList.contains(s + " " + next)) {
+                    parsedKeywords.add(s + " " + next);
+                    continue;
+                }
+            }
+
+            for (String breed : breedList) {
+                if (breed.contains(" ")) {
+                    String mainBreed = breed.split(" ")[1];
+                    if (mainBreed.equals(s)) {
+                        parsedKeywords.add(s);
+                    }
+                }
             }
         }
 

@@ -49,6 +49,9 @@ public class Message implements Serializable {
     @JsonProperty("type")
     private String type;
 
+    @JsonProperty("keyword")
+    private String keyword;
+
     @JsonProperty("timestamp")
     private Long timestamp;
 

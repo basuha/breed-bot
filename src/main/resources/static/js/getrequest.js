@@ -27,10 +27,12 @@ function addMessageToChat(m) {
                     + '</li>')
                 $.each(JSON.parse(m.data), function (i, r) {
                     $('#getResultDiv .list-group').append(
-                    '<li class="list-group-item bg-warning">'
-                    + r
-                    + '</li>')
+                        '<li class="list-group-item bg-warning">'
+                        + r
+                        + '</li>'
+                    )
                 })
+
             } else {
                 $('#getResultDiv .list-group').append(
                     '<li class="list-group-item bg-warning">'

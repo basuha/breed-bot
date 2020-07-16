@@ -5,9 +5,10 @@ import com.basuha.breed_bot.message.Response;
 import com.basuha.breed_bot.repository.MessageRepo;
 import com.basuha.breed_bot.repository.UserRepo;
 import com.basuha.breed_bot.service.BreedService;
-import org.jboss.logging.Messages;
+import org.apache.commons.text.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -51,6 +52,7 @@ public class RestWebController {
 			Queue<Message> queue = new LinkedList<>();
 			requestQueue.put(chatId, queue);
 		}
+
 		requestQueue.get(chatId).offer(message);
 		return new Response("Done", request); //TODO:
 	}
@@ -72,7 +74,7 @@ public class RestWebController {
 			if (!parsedKeyWords.isEmpty()) {
 				for (String s : parsedKeyWords) {
 					requests.add(Message.builder()
-							.text(s)
+							.keyword(s)
 							.build());
 					System.out.println(s);
 				}
@@ -91,19 +93,34 @@ public class RestWebController {
 					.timestamp(System.currentTimeMillis())
 					.build();
 
-			switch (request.getText()) {
-				case "list" -> {
-					response.setText("Here`s a breed list. You can choose multiple");
-					response.setData(breedService.getBreedListJson());
-					response.setType("list");
+			if (request.getKeyword() != null) {
+				switch (request.getKeyword()) {
+					case "list" -> {
+						response.setText("Here`s a breed list. You can choose multiple");
+						response.setData(breedService.getBreedListJson());
+						response.setType("list");
+					}
+					case "random" -> {
+						response.setData(breedService.getRandomDogImage());
+						response.setText(breedService.getRandomBotText());
+						response.setType("image");
+					}
+//				case "help" -> { //TODO:
+//
+//				}
+					default -> {
+						response.setData(breedService.getRandomDogImageByBreed(request.getKeyword()));
+						response.setText(breedService.getRandomBotText()
+								+ " Picture of <b>"
+								+ WordUtils.capitalizeFully(request.getKeyword())
+								+ "</b>");
+						response.setType("image");
+					}
 				}
-				case "random" -> {
-					response.setData(breedService.getRandomDogImage());
-					response.setText(breedService.getRandomBotText());
-					response.setType("image");
-				}
-				default -> response = null;
+			} else {
+				response = null;
 			}
+
 			responses.add(response);
 			if (response != null) {
 				messageRepo.save(response);

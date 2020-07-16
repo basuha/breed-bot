@@ -47,6 +47,16 @@ public class GlobalConfig {
     }
 
     @Bean
+    public List<String> keyWords() {
+        return new ArrayList<>(){{
+            add("list");
+            add("random");
+            add("hello");
+            add("help");
+        }};
+    }
+
+    @Bean
     public Gson gson() {
         return new Gson();
     }
@@ -78,16 +88,6 @@ public class GlobalConfig {
                 outputList.add(d + " " + breed.getName());
         }
         return outputList;
-    }
-
-
-    @Bean
-    public List<String> keyWords() {
-        return new ArrayList<>(){{
-            add("list");
-            add("random");
-            add("hello");
-        }};
     }
 
 }
