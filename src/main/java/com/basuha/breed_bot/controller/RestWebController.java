@@ -2,16 +2,12 @@ package com.basuha.breed_bot.controller;
 
 import com.basuha.breed_bot.message.Message;
 import com.basuha.breed_bot.message.Response;
-import com.basuha.breed_bot.message.User;
 import com.basuha.breed_bot.repository.MessageRepo;
 import com.basuha.breed_bot.service.BreedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.PermitAll;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 @RestController
 @RequestMapping("/api/customer")
@@ -27,7 +23,7 @@ public class RestWebController {
 
 	@GetMapping
 	public List<Message> getAllMessages(@RequestParam Long chatId) {
-		return messageRepo.getByUserId(chatId);
+		return messageRepo.getByUserIdOrderByTimestamp(chatId);
 	}
 
 	@PostMapping(value = "/save")
@@ -76,10 +72,11 @@ public class RestWebController {
 			response.setStatus("success");
 			response.setUserId(chatId);
 			response.setIsBotMessage(true);
+			response.setTimestamp(System.currentTimeMillis());
 
 			switch (request.getText()) {
 				case "list" -> {
-					response.setText(breedService.getRandomBotText());
+					response.setText("Here`s a breed list. You can choose multiple");
 					response.setType("list");
 				}
 				case "random" -> {

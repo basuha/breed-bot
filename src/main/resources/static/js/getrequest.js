@@ -23,6 +23,7 @@ function addMessageToChat(m) {
                     '<li class="list-group-item bg-warning">'
                     + '<b>Breed Bot</b>'
                     + ' : '
+                    + m.text
                     + breedList()
                     + '</li>')
             } else {
