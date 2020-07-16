@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dserver.port=$PORT -cp target/classes:target/dependency/* com.example.servingwebcontent.ServingWebContentApplication
+web: java $JAVA_OPTS -Dserver.port=$PORT -cp target/classes:target/dependency/* com.basuha.breed_bot.BreedBotApplication
