@@ -77,7 +77,7 @@ public class BreedService {
     public List<String> parseUserMessage(String message) {
         List<String> parsedKeywords = new ArrayList<>();
 
-        for (var s : message
+        for (var s : message.toLowerCase()
                 .replaceAll(messageParseRegex, "")
                 .replaceAll(messageSplitRegex, " ")
                 .split(" ")) {
