@@ -25,7 +25,6 @@ public class RestWebController {
 	@Autowired
 	private BreedService breedService;
 
-
 	private final Map<Long,Queue<Message>> requestQueue = new HashMap<>();
 
 	@Value("${bot-welcome-message}")
@@ -33,7 +32,6 @@ public class RestWebController {
 
 	@GetMapping
 	public List<Message> getAllMessages(@RequestParam Long chatId) {
-		System.out.println(breedService.getBreedListJson());
 		messageRepo.save(Message.builder()
 				.isBotMessage(true)
 				.userId(chatId)
@@ -96,6 +94,8 @@ public class RestWebController {
 			switch (request.getText()) {
 				case "list" -> {
 					response.setText("Here`s a breed list. You can choose multiple");
+					response.setData(breedService.getBreedListJson());
+					System.out.println(breedService.getBreedListJson());
 					response.setType("list");
 				}
 				case "random" -> {

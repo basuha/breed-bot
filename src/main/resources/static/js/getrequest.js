@@ -24,7 +24,7 @@ function addMessageToChat(m) {
                     + botName
                     + ' : '
                     + m.text
-                    + breedList()
+                    + JSON.parse(m.data)
                     + '</li>')
             } else {
                 $('#getResultDiv .list-group').append(
