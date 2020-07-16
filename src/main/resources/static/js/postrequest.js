@@ -68,7 +68,7 @@ $( document ).ready(function() {
 						'<li class="list-group-item bg-warning">'
 						+ '<b>Breed Bot</b>'
 						+ ' : '
-						+ '<img class="card-img-top" src="'+ result.message +'"/>'
+						+ '<img class="card-img-top" style="width: 50%; height: 50%" src="'+ result.message +'"/>'
 						+ '<br>'
 						+ '</li>')
 					console.log("Success: ", result);

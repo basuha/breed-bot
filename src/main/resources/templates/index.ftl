@@ -21,14 +21,14 @@
 <#--		<div class="col-sm-7" id="postResultDiv">-->
 <#--		</div>-->
 	<div id="scroll" class="mx-auto" style="height:600px;width:1100px;overflow:auto;padding-top:100px;padding-bottom:10px; padding-right: 0">
-	<div class="col-sm-7" style="margin:20px 0px 20px 0px">
-		<div id="getResultDiv" style="padding:20px 10px 20px 50px">
+	<div style="margin:20px 0px 20px 0px">
+		<div id="getResultDiv">
 			<ul class="list-group">
 			</ul>
 		</div>
 	</div>
 	</div>
-	<div class=form-group">
+	<div class=form-group>
 		<form id="customerForm">
 			<div>
 				<input class="form-control" type="text" id="message" placeholder="Написать сообщение..."/>
