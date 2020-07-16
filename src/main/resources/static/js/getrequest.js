@@ -60,11 +60,6 @@ $(document).ready(function() {
                 $.each(result, function (i, m) {
                     addMessageToChat(m)
                 });
-                $('#getResultDiv .list-group').append(
-                    '<li class="list-group-item bg-warning"> '
-                    + botName + ' : '
-                    + 'Добрый день, ' + username + '! Меня зовут Breed bot. Чем могу помочь?'
-                    + '</li>')
                 scrollDown()
                 console.log("Success: ", result);
             },

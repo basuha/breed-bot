@@ -34,6 +34,7 @@ public class RestWebController {
 	public List<Message> getAllMessages(@RequestParam Long chatId) {
 		messageRepo.save(Message.builder()
 				.isBotMessage(true)
+				.userId(chatId)
 				.timestamp(System.currentTimeMillis())
 				.text(String.format(botWelcomeMessage, userRepo.findById(chatId).get().getUsername()))
 				.build());
