@@ -57,7 +57,6 @@ $( document ).ready(function() {
     }
 
 	function getResponseFromBot() {
-
 		$.ajax({
 			type: "GET",
 			url: window.location + "api/customer/response?chatId=" + $('input[name="userId"]').attr('value'),
@@ -68,7 +67,7 @@ $( document ).ready(function() {
 						'<li class="list-group-item bg-warning">'
 						+ '<b>Breed Bot</b>'
 						+ ' : '
-						+ '<img class="card-img-top" src="'+ result.message +'"/>'
+						+ '<img class="card-img-top" style="width: 50%; height: 50%" src="'+ result.message +'"/>'
 						+ '<br>'
 						+ '</li>')
 					console.log("Success: ", result);
@@ -83,7 +82,6 @@ $( document ).ready(function() {
 				console.log("ERROR: ", e);
 			},
 		});
-
 	}
 })
 

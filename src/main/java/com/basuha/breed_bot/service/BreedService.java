@@ -21,8 +21,9 @@ public class BreedService {
     private Gson gson;
     private ObjectMapper objectMapper;
 
-//    @Value("${breed-list-url}")
+//    @Value("${breed-list-url}") //TODO:to config file
     private static final String BREED_LIST_URL = "https://dog.ceo/api/breeds/list/all";
+    private static final String RA = "https://dog.ceo/api/breeds/list/all";
 
     public BreedService() {
         this.restTemplate = new RestTemplate();

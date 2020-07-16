@@ -57,7 +57,6 @@ $( document ).ready(function() {
     }
 
 	function getResponseFromBot() {
-
 		$.ajax({
 			type: "GET",
 			url: window.location + "api/customer/response?chatId=" + $('input[name="userId"]').attr('value'),
@@ -83,7 +82,6 @@ $( document ).ready(function() {
 				console.log("ERROR: ", e);
 			},
 		});
-
 	}
 })
 
