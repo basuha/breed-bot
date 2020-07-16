@@ -16,6 +16,9 @@ import java.util.*;
 @Service
 public class BreedService {
 
+    @Value("${breed-list-url}")
+    private String BREED_LIST_URL;
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -49,14 +52,8 @@ public class BreedService {
         return restTemplate.getForObject(URL, String.class);
     }
 
-    public void getBreedList() {
-//        breeds.forEach(System.out::println);
-//
-//        Pattern pattern = Pattern.compile("\"[a-z]\"");
-//        Matcher matcher = pattern.matcher(breedListJson);
-//        System.out.println("    ");
-//
-//        matcher.results().forEach(s -> System.out.println(s.group()));
+    public String getBreedList() {
+        return getPlainJSON(BREED_LIST_URL);
     }
 
     public Message jsonToMessage(String json) {

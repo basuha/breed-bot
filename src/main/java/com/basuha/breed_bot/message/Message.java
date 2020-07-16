@@ -44,6 +44,9 @@ public class Message implements Serializable {
     @JsonProperty("is_bot_message")
     @Column(name = "is_bot_message")
     private Boolean isBotMessage;
+
+    @JsonProperty("type")
+    private String type;
 //
 //    @JsonProperty("data")
 //    private String data;

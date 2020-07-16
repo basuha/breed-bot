@@ -76,9 +76,14 @@ public class RestWebController {
 		for (var request : requests) {
 			Message response = new Message();
 			String url = "https://dog.ceo/api/breeds/image/random"; //TODO:
+
+			switch (request.getText()) {
+				case "list" -> response.setData(breedService.getBreedList());
+				default -> response.setData(breedService.getPlainJSON(url));
+			}
 			response.setUserId(chatId);
 			response.setIsBotMessage(true);
-			response.setData(breedService.getPlainJSON(url));
+
 			response.setText("Картинка по запросу: "); //+ request.getText());
 			responses.add(breedService.parseResponse(response));
 			messageRepo.save(request);
