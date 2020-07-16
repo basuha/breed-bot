@@ -45,7 +45,7 @@ public class RestWebController {
 	}
 
 	@PostMapping(value = "/save")
-	public Response postMessage(@RequestBody String request) {
+	public Response postMessage(@RequestBody String request) { //TODO: add message validation
 		Message message = breedService.jsonToMessage(request);
 		message.setTimestamp(System.currentTimeMillis());
 		Long chatId = message.getUserId();
@@ -107,7 +107,7 @@ public class RestWebController {
 						response.setText(breedService.getRandomBotText());
 						response.setType("image");
 					}
-//				case "help" -> { //TODO:
+//				case "help" -> { //TODO: help command
 //
 //				}
 					default -> {
