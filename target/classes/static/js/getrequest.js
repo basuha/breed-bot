@@ -21,7 +21,7 @@ function addMessageToChat(m) {
             } else if (m.type === "list") {
                 $('#getResultDiv .list-group').append(
                     '<li class="list-group-item bg-warning">'
-                    + '<b>Breed Bot</b>'
+                    + botName
                     + ' : '
                     + m.text
                     + breedList()
@@ -29,7 +29,7 @@ function addMessageToChat(m) {
             } else {
                 $('#getResultDiv .list-group').append(
                     '<li class="list-group-item bg-warning">'
-                    + '<b>Breed Bot</b>'
+                    + botName
                     + ' : '
                     + m.text)
             }
@@ -46,6 +46,7 @@ function addMessageToChat(m) {
 }
 
 $(document).ready(function() {
+    getBreedList()
     scrollDown()
     username = $('input[name="username"]').attr('value')
     botName = '<b>Breed Bot</b>'
@@ -141,6 +142,8 @@ $(document).ready(function() {
     }
 })
 
+
+
 function breedList(){
     var output;
     $.getJSON("https://dog.ceo/api/breeds/list/all", function(result) {
@@ -178,6 +181,43 @@ function breedList(){
         // });
     });
     return output;
+}
+
+function getBreedList(){
+    var formData = {
+        text : breedList(),
+        user_id : $('input[name="userId"]').attr('value'),
+    }
+
+    console.log(formData)
+
+    var token =  $('input[name="_csrf"]').attr('value')
+    var username = $('input[name="username"]').attr('value')
+
+    // DO POST
+    $.ajax({
+        type : "POST",
+        contentType : "application/json",
+        url : window.location + "breed-bot/save",
+        data : JSON.stringify(formData),
+        dataType : 'json',
+        headers: {
+            'X-CSRF-Token': token
+        },
+        success : function(result) {
+            $('#getResultDiv .list-group').append(
+                '<li class="list-group-item">'
+                + username
+                + ': '
+                + formData.text
+                + '</li>')
+            console.log(result);
+        },
+        error : function(e) {
+            alert("Error!")
+            console.log("ERROR: ", e);
+        }
+    });
 }
 
 //

@@ -1,5 +1,7 @@
 package com.basuha.breed_bot.service;
 
+import com.basuha.breed_bot.message.BreedList;
+import com.basuha.breed_bot.message.BreedListResponse;
 import com.basuha.breed_bot.message.Message;
 import com.basuha.breed_bot.message.Response;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,13 +13,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.util.*;
 
 @Service
 public class BreedService {
-
-    @Value("${breed-list-url}")
-    private String breedListUrl;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -46,17 +47,20 @@ public class BreedService {
     @Value("${random-image-of-breed-url}")
     private String randomImageOfBreedUrl;
 
+    @Value("${breed-list-url}")
+    private String breedListUrl;
+
     @Value("${message-parse-regex}")
     private String messageParseRegex;
 
     @Value("${message-split-regex}")
     private String messageSplitRegex;
 
-    public String getRandomDogImage(){
+    public String getRandomDogImage() {
         return getPlainJSON(randomImageUrl);
     }
 
-    public String getRandomBotText(){
+    public String getRandomBotText() {
         return botTexts.get(new Random().nextInt(botTexts.size()));
     }
 
@@ -64,8 +68,30 @@ public class BreedService {
         return restTemplate.getForObject(URL, String.class);
     }
 
-    public String getBreedList() {
-        return getPlainJSON(breedListUrl);
+    public List<String> getBreedList() {
+        BreedListResponse breedListResponse = gson.fromJson(getPlainJSON(breedListUrl), BreedListResponse.class);
+        BreedList breedList = breedListResponse.getMessage();
+        List<String> outputList = new ArrayList<>();
+        for (var breed : breedList.getClass().getFields()) {
+            Field field = null;
+            try {
+                field = breedList.getClass().getDeclaredField(breed.getName());
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+            try {
+                List<String> value = (List<String>) field.get(breedList);
+                if (value.isEmpty()) {
+                    outputList.add(breed.getName());
+                }
+                for (var d : value) {
+                    outputList.add(d + " " + breed.getName());
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return outputList;
     }
 
     public Message jsonToMessage(String json) {
