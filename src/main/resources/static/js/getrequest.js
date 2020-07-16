@@ -24,8 +24,13 @@ function addMessageToChat(m) {
                     + botName
                     + ' : '
                     + m.text
-                    + JSON.parse(m.data)
                     + '</li>')
+                $.each(JSON.parse(m.data), function (i, r) {
+                    $('#getResultDiv .list-group').append(
+                    '<li class="list-group-item bg-warning">'
+                    + r
+                    + '</li>')
+                })
             } else {
                 $('#getResultDiv .list-group').append(
                     '<li class="list-group-item bg-warning">'
@@ -126,7 +131,6 @@ $(document).ready(function() {
             type: "GET",
             url: window.location + "breed-bot/response?chatId=" + $('input[name="userId"]').attr('value'),
             success: function (result) {
-                console.log(result)
                 $.each(result, function (i, r) {
                     addMessageToChat(r)
                     console.log("Success: ", r);

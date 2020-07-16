@@ -32,7 +32,7 @@ public class RestWebController {
 
 	@GetMapping
 	public List<Message> getAllMessages(@RequestParam Long chatId) {
-		messageRepo.save(Message.builder()
+		messageRepo.save(Message.builder() //Welcome message building
 				.isBotMessage(true)
 				.userId(chatId)
 				.timestamp(System.currentTimeMillis())
@@ -95,7 +95,6 @@ public class RestWebController {
 				case "list" -> {
 					response.setText("Here`s a breed list. You can choose multiple");
 					response.setData(breedService.getBreedListJson());
-					System.out.println(breedService.getBreedListJson());
 					response.setType("list");
 				}
 				case "random" -> {
@@ -110,7 +109,6 @@ public class RestWebController {
 				messageRepo.save(response);
 			}
 		}
-		System.out.println(responses.size());
 		return responses;
 	}
 }
