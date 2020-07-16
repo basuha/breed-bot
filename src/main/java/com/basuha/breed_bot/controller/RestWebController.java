@@ -3,8 +3,11 @@ package com.basuha.breed_bot.controller;
 import com.basuha.breed_bot.message.Message;
 import com.basuha.breed_bot.message.Response;
 import com.basuha.breed_bot.repository.MessageRepo;
+import com.basuha.breed_bot.repository.UserRepo;
 import com.basuha.breed_bot.service.BreedService;
+import org.jboss.logging.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -17,18 +20,30 @@ public class RestWebController {
 	private MessageRepo messageRepo;
 
 	@Autowired
+	private UserRepo userRepo;
+
+	@Autowired
 	private BreedService breedService;
 
 	private final Map<Long,Queue<Message>> requestQueue = new HashMap<>();
 
+	@Value("${bot-welcome-message}")
+	private String botWelcomeMessage;
+
 	@GetMapping
 	public List<Message> getAllMessages(@RequestParam Long chatId) {
+		messageRepo.save(Message.builder()
+				.isBotMessage(true)
+				.timestamp(System.currentTimeMillis())
+				.text(String.format(botWelcomeMessage, userRepo.findById(chatId).get().getUsername()))
+				.build());
 		return messageRepo.getByUserIdOrderByTimestamp(chatId);
 	}
 
 	@PostMapping(value = "/save")
 	public Response postMessage(@RequestBody String request) {
 		Message message = breedService.jsonToMessage(request);
+		message.setTimestamp(System.currentTimeMillis());
 		Long chatId = message.getUserId();
 
 		if (!requestQueue.containsKey(chatId)){
@@ -55,9 +70,9 @@ public class RestWebController {
 			List<String> parsedKeyWords = breedService.parseUserMessage(message.getText());
 			if (!parsedKeyWords.isEmpty()) {
 				for (String s : parsedKeyWords) {
-					Message responseKeyword = new Message();
-					responseKeyword.setText(s);
-					requests.add(responseKeyword);
+					requests.add(Message.builder()
+							.text(s)
+							.build());
 					System.out.println(s);
 				}
 			}
@@ -68,11 +83,12 @@ public class RestWebController {
 		messageRepo.save(message);
 
 		for (var request : requests) {
-			Message response = new Message();
-			response.setStatus("success");
-			response.setUserId(chatId);
-			response.setIsBotMessage(true);
-			response.setTimestamp(System.currentTimeMillis());
+			Message response = Message.builder()
+					.status("success")
+					.userId(chatId)
+					.isBotMessage(true)
+					.timestamp(System.currentTimeMillis())
+					.build();
 
 			switch (request.getText()) {
 				case "list" -> {

@@ -16,7 +16,9 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "msg")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -52,7 +54,9 @@ public class Message implements Serializable {
 
     @Transient
     private String status;
-//
+
+
+    //
 //    @JsonProperty("data")
 //    private String data;
 
