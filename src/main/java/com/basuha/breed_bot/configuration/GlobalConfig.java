@@ -3,6 +3,7 @@ package com.basuha.breed_bot.configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -13,7 +14,8 @@ import java.util.List;
 
 @Configuration
 public class GlobalConfig {
-    private static final String BREED_LIST_URL = "https://dog.ceo/api/breeds/list/all";
+    @Value("${breed-list-url}")
+    private String BREED_LIST_URL;
 
     @Bean
     public RestTemplate restTemplate() {

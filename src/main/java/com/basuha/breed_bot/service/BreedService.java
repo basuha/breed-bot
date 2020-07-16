@@ -2,17 +2,12 @@ package com.basuha.breed_bot.service;
 
 import com.basuha.breed_bot.message.Message;
 import com.basuha.breed_bot.message.Response;
-import com.basuha.breed_bot.message.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,13 +25,6 @@ public class BreedService {
     @Autowired
     private ObjectMapper objectMapper;
 
-//    @Value("${breed-list-url}") //TODO:to config file
-
-    private static final String RANDOM_IMAGE = "https://dog.ceo/api/breeds/image/random";
-    private static final String RANDOM_IMAGE_OF_BREED = "https://dog.ceo/api/breed/%s/images/random";
-    private static final String PARSE_REGEX = "([?!:;,.)(])";
-    private static final String SPLIT_REGEX = "([\\-`_])";
-
     @Autowired
     @Qualifier("keyWords")
     private List<String> KEYWORDS;
@@ -44,6 +32,18 @@ public class BreedService {
     @Autowired
     @Qualifier("breedList")
     private List<String> BREEDLIST;
+
+    @Value("${random-image-url}")
+    private String randomImageUrl;
+
+    @Value("${random-image-of-breed-url}")
+    private String randomImageOfBreedUrl;
+
+    @Value("${message-parse-regex}")
+    private String messageParseRegex;
+
+    @Value("${message-split-regex}")
+    private String messageSplitRegex;
 
     public String getPlainJSON(String URL) {
         return restTemplate.getForObject(URL, String.class);
@@ -78,8 +78,8 @@ public class BreedService {
         List<String> parsedKeywords = new ArrayList<>();
 
         for (var s : message
-                .replaceAll(PARSE_REGEX, "")
-                .replaceAll(SPLIT_REGEX, " ")
+                .replaceAll(messageParseRegex, "")
+                .replaceAll(messageSplitRegex, " ")
                 .split(" ")) {
             if(KEYWORDS.contains(s)) {
                 parsedKeywords.add(s);
