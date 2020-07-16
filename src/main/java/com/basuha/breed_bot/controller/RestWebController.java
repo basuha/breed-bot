@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.PermitAll;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -38,18 +39,23 @@ public class RestWebController {
 
 		if (!requestQueue.containsKey(chatId)){
 			Queue<Message> queue = new ConcurrentLinkedQueue<>();
-			queue.offer(message);
 			requestQueue.put(chatId, queue);
 		}
 
-		requestQueue.get(message.getUserId()).offer(message);
+		List<String> parsedKeyWords = breedService.parseUserMessage(message.getText());
+		if (!parsedKeyWords.isEmpty())
+			for(var s : parsedKeyWords) {
+				System.out.println(s);
+		}
+
+		requestQueue.get(chatId).offer(message);
 		messageRepo.save(message);
 		return new Response("Done", request); //TODO:
 	}
 
 	@GetMapping(value = "/response")
 	@ResponseBody
-	public Response sendMessageToUser(@RequestParam Long chatId) {
+	public Response[] sendMessageToUser(@RequestParam Long chatId) {
 		Message request = null;
 		do {
 			if (requestQueue.containsKey(chatId)){
@@ -66,6 +72,6 @@ public class RestWebController {
 		messageRepo.save(response);
 
 		// Create Response Object
-		return breedService.parseResponse(response); //TODO:
+		return new Response[] {breedService.parseResponse(response), breedService.parseResponse(response)}; //TODO:
 	}
 }

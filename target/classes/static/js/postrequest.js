@@ -61,21 +61,23 @@ $( document ).ready(function() {
 			type: "GET",
 			url: window.location + "api/customer/response?chatId=" + $('input[name="userId"]').attr('value'),
 			success: function (result) {
-				console.log(result.data)
-				if (result.status === "success") {
-					$('#getResultDiv .list-group').append(
-						'<li class="list-group-item bg-warning">'
-						+ '<b>Breed Bot</b>'
-						+ ' : '
-						+ '<img class="card-img-top" style="width: 50%; height: 50%" src="'+ result.message +'"/>'
-						+ '<br>'
-						+ '</li>')
-					console.log("Success: ", result);
-					document.getElementById("scroll").scrollTo(0,document.getElementById("scroll").scrollHeight)
+				console.log(result)
+				$.each(result, function (i, r) {
+				if (r.status === "success") {
+						$('#getResultDiv .list-group').append(
+							'<li class="list-group-item bg-warning">'
+							+ '<b>Breed Bot</b>'
+							+ ' : '
+							+ '<img class="card-img-top" style="width: 50%; height: 50%" src="'+ r.message +'"/>'
+							+ '<br>'
+							+ '</li>')
+						console.log("Success: ", r);
+						document.getElementById("scroll").scrollTo(0,document.getElementById("scroll").scrollHeight)
 				} else {
 					$("#getResultDiv").html("<strong>Error</strong>");
-					console.log("Fail: ", result);
+					console.log("Fail: ", r);
 				}
+			})
 			},
 			error: function (e) {
 				$("#getResultDiv").html("<strong>Error</strong>");
