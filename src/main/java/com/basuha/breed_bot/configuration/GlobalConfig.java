@@ -1,13 +1,17 @@
 package com.basuha.breed_bot.configuration;
 
+import com.basuha.breed_bot.message.BreedList;
+import com.basuha.breed_bot.message.BreedListResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +48,7 @@ public class GlobalConfig {
 
     @Bean
     public Gson gson() {
-        return new GsonBuilder().setPrettyPrinting().create();
+        return new Gson();
     }
 
     @Bean
@@ -53,16 +57,29 @@ public class GlobalConfig {
     }
 
     @Bean
+    @SneakyThrows
     public List<String> breedList() {
-        String breedListJson = restTemplate().getForObject(breedListUrl, String.class);
-//        String s = breedListJson.replaceAll(":\", " ");
-////        Pattern pattern = Pattern.compile("\"(.+?)\"");
-//        Pattern pattern = Pattern.compile("\"(.+?)\"");
-//        Matcher matcher = pattern.matcher(breedListJson);
-//        while (matcher.find())
-//            System.out.println(matcher.group());
-        return Arrays.asList(breedListJson.split("[^a-z]+"));
+        BreedListResponse breedListResponse = gson().fromJson(
+                restTemplate().getForObject(breedListUrl, String.class), BreedListResponse.class);
+
+        BreedList breedList = breedListResponse.getMessage();
+
+        List<String> outputList = new ArrayList<>();
+        Field[] fields = breedList.getClass().getFields();
+        for (Field breed : fields) {
+
+            Field field = breedList.getClass().getDeclaredField(breed.getName());
+            List<String> value = (List<String>) field.get(breedList);
+
+            if (value.isEmpty())
+                outputList.add(breed.getName());
+
+            for (Object d : value)
+                outputList.add(d + " " + breed.getName());
+        }
+        return outputList;
     }
+
 
     @Bean
     public List<String> keyWords() {

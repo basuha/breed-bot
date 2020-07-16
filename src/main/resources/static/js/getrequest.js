@@ -46,7 +46,6 @@ function addMessageToChat(m) {
 }
 
 $(document).ready(function() {
-    getBreedList()
     scrollDown()
     username = $('input[name="username"]').attr('value')
     botName = '<b>Breed Bot</b>'
@@ -141,84 +140,6 @@ $(document).ready(function() {
         });
     }
 })
-
-
-
-function breedList(){
-    var output;
-    $.getJSON("https://dog.ceo/api/breeds/list/all", function(result) {
-        var breeds = result.message;
-        firstDog = Object.keys(breeds)[0];
-        $.each(breeds,function(dog,breed){
-                if(breeds[dog].length>=1) {
-                    for(let i = 0; i < breeds[dog].length; i++) {
-                        $('#getResultDiv .list-group').append(
-                            '<option value="'
-                            + dog
-                            + '-' + breeds[dog][i]
-                            + '">'
-                            + ''
-                            + breeds[dog][i]
-                            + ' '
-                            + dog
-                            + '</option>');
-                    }
-                }
-                else if(breeds[dog].length<1){
-                    $('#getResultDiv .list-group').append(
-                        '<option value="'
-                        + dog
-                        + '">'
-                        + dog
-                        + '</option>');
-                }
-            }
-        );
-        // $.getJSON("https://dog.ceo/api/breed/"
-        // 	+ firstDog
-        // 	+ "/images/random", function(result){
-        // 	$(".demo-image").html("<img src='"+result.message+"'>");
-        // });
-    });
-    return output;
-}
-
-function getBreedList(){
-    var formData = {
-        text : breedList(),
-        user_id : $('input[name="userId"]').attr('value'),
-    }
-
-    console.log(formData)
-
-    var token =  $('input[name="_csrf"]').attr('value')
-    var username = $('input[name="username"]').attr('value')
-
-    // DO POST
-    $.ajax({
-        type : "POST",
-        contentType : "application/json",
-        url : window.location + "breed-bot/save",
-        data : JSON.stringify(formData),
-        dataType : 'json',
-        headers: {
-            'X-CSRF-Token': token
-        },
-        success : function(result) {
-            $('#getResultDiv .list-group').append(
-                '<li class="list-group-item">'
-                + username
-                + ': '
-                + formData.text
-                + '</li>')
-            console.log(result);
-        },
-        error : function(e) {
-            alert("Error!")
-            console.log("ERROR: ", e);
-        }
-    });
-}
 
 //
 // $.ajax({

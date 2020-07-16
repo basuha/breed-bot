@@ -7,9 +7,12 @@ import com.basuha.breed_bot.message.Response;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import lombok.Getter;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -68,30 +71,8 @@ public class BreedService {
         return restTemplate.getForObject(URL, String.class);
     }
 
-    public List<String> getBreedList() {
-        BreedListResponse breedListResponse = gson.fromJson(getPlainJSON(breedListUrl), BreedListResponse.class);
-        BreedList breedList = breedListResponse.getMessage();
-        List<String> outputList = new ArrayList<>();
-        for (var breed : breedList.getClass().getFields()) {
-            Field field = null;
-            try {
-                field = breedList.getClass().getDeclaredField(breed.getName());
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
-            try {
-                List<String> value = (List<String>) field.get(breedList);
-                if (value.isEmpty()) {
-                    outputList.add(breed.getName());
-                }
-                for (var d : value) {
-                    outputList.add(d + " " + breed.getName());
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        return outputList;
+    public String getBreedListJson() {
+        return gson.toJson(breedList);
     }
 
     public Message jsonToMessage(String json) {

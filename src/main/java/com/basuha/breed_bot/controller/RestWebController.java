@@ -33,9 +33,7 @@ public class RestWebController {
 
 	@GetMapping
 	public List<Message> getAllMessages(@RequestParam Long chatId) {
-		for (var s : breedService.getBreedList()){
-			System.out.println(s);
-		}
+		System.out.println(breedService.getBreedListJson());
 		messageRepo.save(Message.builder()
 				.isBotMessage(true)
 				.userId(chatId)
