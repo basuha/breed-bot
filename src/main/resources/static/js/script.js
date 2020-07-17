@@ -1,6 +1,7 @@
 var username
 var botName
 var chatId
+var breedList
 
 function scrollDown() {
     document.getElementById("scroll").scrollTo(0,document.getElementById("scroll").scrollHeight)
@@ -19,13 +20,14 @@ function addMessageToChat(m) {
                     + '<img class="card-img-top" style="max-width: 100ex" src="' + JSON.parse(m.data).message + '"/>'
                     + '</li>')
             } else if (m.type === "list") {
+                breedList = buildBreedList(m.data)
                 $('#getResultDiv .list-group').append(
                     '<li class="list-group-item bg-warning mx-auto mt-1 mb-1">'
                     + botName
                     + ' : '
                     + m.text
                     + '</li>'
-                    + buildBreedList(m.data))
+                    + breedList) //TODO: click on option appends it to message
             } else {
                 $('#getResultDiv .list-group').append(
                     '<li class="list-group-item bg-warning mx-auto mt-1 mb-1">'
@@ -43,23 +45,24 @@ function addMessageToChat(m) {
         }
     }
     scrollDown()
-    function buildBreedList(data) {
-        var html = [];
-        html.push('<li class="list-group-item bg-warning mx-auto mt-1 mb-1">')
-        html.push('<select name="breeds" id="breeds">')
-        $.each(JSON.parse(data), function (i, r) {
-            html.push(
-                '<option value="'
-                + r
-                + '">'
-                + r
-                + '</option>'
-            )
-        })
-        html.push('</select>')
-        html.push('</li>')
-        return html.join("");
-    }
+}
+
+function buildBreedList(data) {
+    var html = []
+    html.push('<li class="list-group-item bg-warning mx-auto mt-1 mb-1">')
+    html.push('<select name="breeds" id="breeds">')
+    $.each(JSON.parse(data), function (i, r) {
+        html.push(
+            '<option value="'
+            + r
+            + '">'
+            + r
+            + '</option>'
+        )
+    })
+    html.push('</select>')
+    html.push('</li>')
+    return html.join("")
 }
 
 $(document).ready(function() {

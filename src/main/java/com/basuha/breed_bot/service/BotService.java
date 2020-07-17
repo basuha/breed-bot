@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 
 @Service
-public class BreedService {
+public class BotService {
 
     @Autowired
     private RestTemplate restTemplate;
@@ -40,6 +40,14 @@ public class BreedService {
     @Qualifier("randomImageResponseBotTexts")
     private List<String> botTexts;
 
+    @Autowired
+    @Qualifier("botWelcomeMessage")
+    private String botWelcomeMessage;
+
+    @Autowired
+    @Qualifier("botHelpMessage")
+    private String botHelpMessage;
+
     @Value("${random-image-url}")
     private String randomImageUrl;
 
@@ -57,6 +65,14 @@ public class BreedService {
 
     @Value("${message-split-regex}")
     private String messageSplitRegex;
+
+    public String getBotWelcomeMessage(){
+        return botWelcomeMessage + botHelpMessage;
+    }
+
+    public String getBotHelpMessage(){
+        return botHelpMessage;
+    }
 
     public String getRandomDogImage() {
         return getPlainJSON(randomImageUrl);

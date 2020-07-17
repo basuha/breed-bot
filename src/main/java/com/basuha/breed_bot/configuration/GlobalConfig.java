@@ -26,49 +26,6 @@ public class GlobalConfig {
     }
 
     @Bean
-    public List<String> randomImageResponseBotTexts() {
-        return new ArrayList<>() {{
-            add("Here it is. Your image:");
-            add("Here it is. Your photo:");
-            add("Please, your image:");
-            add("Please, your photo:");
-            add("Look what i found!");
-            add("Hope you like this:");
-            add("It was hard, but i found:");
-            add("It`s dangerous to go alone, take this &#128540;");
-            add("How are you think about this?");
-            add("Not at all!");
-            add("Hope it will be useful:");
-            add("Catch!");
-        }};
-    }
-
-    @Bean
-    public List<String> keyWords() {
-        return new ArrayList<>(){{
-            add("list");
-            add("random");
-            add("hello");
-            add("hi");
-            add("help");
-        }};
-    }
-
-    @Bean
-    public List<String> greetingMessages() {
-        return new ArrayList<>(){{
-            add("Hi, %s!");
-            add("Hi!");
-            add("Good afternoon!");
-            add("Good afternoon, %s!");
-            add("Hello!");
-            add("Hello, %s!");
-            add("How are you?");
-            add("How can i help you?");
-        }};
-    }
-
-    @Bean
     public Gson gson() {
         return new Gson();
     }
