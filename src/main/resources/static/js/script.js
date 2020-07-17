@@ -24,14 +24,8 @@ function addMessageToChat(m) {
                     + botName
                     + ' : '
                     + m.text
-                    + '</li>')
-                $.each(JSON.parse(m.data), function (i, r) {
-                    $('#getResultDiv .list-group').append(
-                        '<li class="list-group-item bg-warning">'
-                        + r
-                        + '</li>'
-                    )
-                })
+                    + '</li>'
+                    + showList(m.data))
             } else {
                 $('#getResultDiv .list-group').append(
                     '<li class="list-group-item bg-warning">'
@@ -49,6 +43,21 @@ function addMessageToChat(m) {
         }
     }
     scrollDown()
+    function showList(data) {
+        var html = [];
+        html.push('<select name="breeds" id="breeds">')
+        $.each(JSON.parse(data), function (i, r) {
+            html.push(
+                '<option value="'
+                + r
+                + '">'
+                + r
+                + '</option>'
+            )
+        })
+        html.push('</select>')
+        return html.join("");
+    }
 }
 
 function cleanDialog() {
