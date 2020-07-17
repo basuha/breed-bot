@@ -32,7 +32,6 @@ function addMessageToChat(m) {
                         + '</li>'
                     )
                 })
-
             } else {
                 $('#getResultDiv .list-group').append(
                     '<li class="list-group-item bg-warning">'
@@ -50,6 +49,25 @@ function addMessageToChat(m) {
         }
     }
     scrollDown()
+}
+
+function cleanDialog() {
+    $.ajax({
+        type: "GET",
+        url: window.location + "breed-bot?chatId=" + chatId,
+        success: function (result) {
+            $('#getResultDiv ul').empty();
+            $.each(result, function (i, m) {
+                addMessageToChat(m)
+            });
+            scrollDown()
+            console.log("Success: ", result);
+        },
+        error: function (e) {
+            $("#getResultDiv").html("<strong>Error</strong>");
+            console.log("ERROR: ", e);
+        }
+    });
 }
 
 $(document).ready(function() {

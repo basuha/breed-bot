@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface MessageRepo extends JpaRepository<Message, Long> {
     List<Message> getByUserIdOrderByTimestamp(Long userId);
+    void deleteAllByUserId(Long userId);
+    boolean existsByUserId(Long userId);
 }

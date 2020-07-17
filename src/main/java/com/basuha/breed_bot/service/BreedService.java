@@ -29,6 +29,10 @@ public class BreedService {
     private List<String> keywords;
 
     @Autowired
+    @Qualifier("greetingMessages")
+    private List<String> greetingMessages;
+
+    @Autowired
     @Qualifier("breedList")
     private List<String> breedList;
 
@@ -73,6 +77,10 @@ public class BreedService {
 
     public String getRandomBotText() {
         return botTexts.get(new Random().nextInt(botTexts.size()));
+    }
+
+    public String getRandomBotGreetingMessage() {
+        return greetingMessages.get(new Random().nextInt(greetingMessages.size()));
     }
 
     public String getPlainJSON(String URL) {

@@ -7,6 +7,7 @@ import com.basuha.breed_bot.repository.UserRepo;
 import com.basuha.breed_bot.service.BreedService;
 import org.apache.commons.text.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,14 +31,25 @@ public class RestWebController {
 	@Value("${bot-welcome-message}")
 	private String botWelcomeMessage;
 
+
 	@GetMapping
 	public List<Message> getAllMessages(@RequestParam Long chatId) {
-		messageRepo.save(Message.builder() //Welcome message building
+		Message message = Message.builder()
 				.isBotMessage(true)
 				.userId(chatId)
 				.timestamp(System.currentTimeMillis())
-				.text(String.format(botWelcomeMessage, userRepo.findById(chatId).get().getUsername()))
-				.build());
+				.build();
+
+		if (!messageRepo.existsByUserId(chatId))
+			message.setText(
+					String.format(botWelcomeMessage,
+							userRepo.findById(chatId).get().getUsername())); //Welcome message building
+		else
+			message.setText(
+					String.format(breedService.getRandomBotGreetingMessage(),
+							userRepo.findById(chatId).get().getUsername())); //Greeting message building
+
+		messageRepo.save(message);
 		return messageRepo.getByUserIdOrderByTimestamp(chatId);
 	}
 
@@ -103,6 +115,9 @@ public class RestWebController {
 						response.setData(breedService.getRandomDogImage());
 						response.setText(breedService.getRandomBotText());
 						response.setType("image");
+					}
+					case "hello","hi" -> {
+						response.setText(breedService.getRandomBotGreetingMessage());
 					}
 //				case "help" -> { //TODO: help command
 //

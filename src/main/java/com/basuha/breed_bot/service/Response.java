@@ -20,9 +20,4 @@ public class Response {
 		this.status = status;
 		this.message = message;
 	}
-
-	public Response(String status, Message botMessage) {
-		this.status = status;
-		this.botMessage = botMessage;
-	}
 }

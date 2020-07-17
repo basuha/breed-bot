@@ -23,12 +23,6 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-//    public static void main(String[] args) {
-//        for (var asd : userRepo.findById(1L).get().getMessageList()) {
-//            System.out.println(asd);
-//        }
-//    }
-
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userRepo.findByUsername(s);
@@ -47,19 +41,5 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
 
         return true;
-    }
-
-    public List<User> findAll() {
-        return userRepo.findAll();
-    }
-
-    public Optional<User> findById(Long userId) {
-        return userRepo.findById(userId);
-    }
-
-    public void saveUser(Long userId, String username, Map<String, String> form) {
-        User user = userRepo.findById(userId).get();
-        user.setUsername(username);
-        userRepo.save(user);
     }
 }

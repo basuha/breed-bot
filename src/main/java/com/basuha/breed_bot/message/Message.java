@@ -23,10 +23,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Table(name = "msg")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "text",
-//        "author"
-})
 public class Message implements Serializable {
 
     @Id
@@ -34,8 +30,6 @@ public class Message implements Serializable {
     @JsonIgnore
     private Long id;
 
-    @NotBlank(message = "Sorry, message is can not be empty")
-    @Length(max = 500, message = "Sorry, message is too long (longer than 500)")
     @JsonProperty("text")
     private String text;
 
