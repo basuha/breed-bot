@@ -63,77 +63,12 @@ public class RestWebController {
 	@GetMapping(value = "/response")
 	@ResponseBody
 	public List<Message> sendMessageToUser(@RequestParam Long chatId) { //bot response building
-		List<Message> requests = new ArrayList<>();
-		List<Message> responses = new ArrayList<>();
 		Message message = null;
-
 		do
-			if (requestQueue.containsKey(chatId))
+			if (requestQueue.containsKey(chatId))						//polling user`s message from queue
 				message = requestQueue.get(chatId).poll();
 		while (message == null);
 
-		if (message.getText() != null) {
-			List<String> parsedKeyWords = botService.parseUserMessage(message.getText());
-			if (!parsedKeyWords.isEmpty()) {
-				for (String s : parsedKeyWords) {
-					requests.add(Message.builder()
-							.keyword(s)
-							.build());
-					System.out.println(s);
-				}
-			}
-		}
-
-		if (requests.isEmpty())
-			requests.add(message);
-		messageRepo.save(message);
-
-		for (var request : requests) {
-			Message response = Message.builder()
-					.status("success")
-					.userId(chatId)
-					.isBotMessage(true)
-					.timestamp(System.currentTimeMillis())
-					.build();
-
-			if (request.getKeyword() != null) {
-				switch (request.getKeyword()) {
-					case "list" -> {
-						response.setText("Here`s a breed list. You can choose multiple");
-						response.setData(botService.getBreedListJson());
-						response.setType("list");
-					}
-					case "random" -> {
-						response.setData(botService.getRandomDogImage());
-						response.setText(botService.getRandomBotText());
-						response.setType("image");
-					}
-					case "hello","hi" ->
-						response.setText(String.format(
-								botService.getRandomBotGreetingMessage(),
-								userRepo.findById(chatId).get().getUsername()));
-
-					case "help" ->
-						response.setText(botService.getBotHelpMessage());
-
-					default -> {
-						response.setData(botService.getRandomDogImageByBreed(request.getKeyword()));
-						response.setText(botService.getRandomBotText()
-								+ " Picture of <b>"
-								+ WordUtils.capitalizeFully(request.getKeyword())
-								+ "</b>");
-						response.setType("image");
-					}
-				}
-			} else {
-				response = null;
-			}
-
-			responses.add(response);
-			if (response != null) {
-				messageRepo.save(response);
-			}
-		}
-		return responses;
+		return botService.buildResponse(chatId, message);				//build response for it
 	}
 }

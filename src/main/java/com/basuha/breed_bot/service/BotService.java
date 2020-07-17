@@ -1,9 +1,12 @@
 package com.basuha.breed_bot.service;
 
 import com.basuha.breed_bot.message.Message;
+import com.basuha.breed_bot.repository.MessageRepo;
+import com.basuha.breed_bot.repository.UserRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import org.apache.commons.text.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,6 +50,13 @@ public class BotService {
     @Autowired
     @Qualifier("botHelpMessage")
     private String botHelpMessage;
+
+    @Autowired
+    private MessageRepo messageRepo;
+
+    @Autowired
+    private UserRepo userRepo;
+
 
     @Value("${random-image-url}")
     private String randomImageUrl;
@@ -122,7 +132,7 @@ public class BotService {
         return gson.fromJson(message.getData(), Response.class);
     }
 
-    public List<String> parseUserMessage(String message) {
+    private List<String> parseMessage(String message) {
         List<String> parsedKeywords = new ArrayList<>();
         List<String> parsed = Arrays.asList(message.toLowerCase()
                 .replaceAll(messageParseRegex, "")
@@ -154,11 +164,80 @@ public class BotService {
                         String mainBreed = breed.split(" ")[1];
                         if (mainBreed.equals(s)) {
                             parsedKeywords.add(s);
+                            break;
                         }
                     }
                 }
             }
 
         return parsedKeywords;
+    }
+
+    public List<Message> buildResponse(Long chatId, Message message) {
+        List<Message> requests = new ArrayList<>();
+        List<Message> responses = new ArrayList<>();
+        if (message.getText() != null) {
+            List<String> parsedKeyWords = parseMessage(message.getText());
+            if (!parsedKeyWords.isEmpty()) {
+                for (String s : parsedKeyWords) {
+                    requests.add(Message.builder()
+                            .keyword(s)
+                            .build());
+                    System.out.println(s);
+                }
+            }
+        }
+
+        if (requests.isEmpty())
+            requests.add(message);
+        messageRepo.save(message);
+
+        for (var request : requests) {
+            Message response = Message.builder()
+                    .status("success")
+                    .userId(chatId)
+                    .isBotMessage(true)
+                    .timestamp(System.currentTimeMillis())
+                    .build();
+
+            if (request.getKeyword() != null) {
+                switch (request.getKeyword()) {
+                    case "list" -> {
+                        response.setText("Here`s a breed list. You can choose multiple");
+                        response.setData(getBreedListJson());
+                        response.setType("list");
+                    }
+                    case "random" -> {
+                        response.setData(getRandomDogImage());
+                        response.setText(getRandomBotText());
+                        response.setType("image");
+                    }
+                    case "hello","hi" ->
+                            response.setText(String.format(
+                                    getRandomBotGreetingMessage(),
+                                    userRepo.findById(chatId).get().getUsername()));
+
+                    case "help" ->
+                            response.setText(getBotHelpMessage());
+
+                    default -> {
+                        response.setData(getRandomDogImageByBreed(request.getKeyword()));
+                        response.setText(getRandomBotText()
+                                + " Picture of <b>"
+                                + WordUtils.capitalizeFully(request.getKeyword())
+                                + "</b>");
+                        response.setType("image");
+                    }
+                }
+            } else {
+                response = null;
+            }
+
+            responses.add(response);
+            if (response != null) {
+                messageRepo.save(response);
+            }
+        }
+        return responses;
     }
 }

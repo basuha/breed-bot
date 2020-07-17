@@ -50,7 +50,7 @@ function addMessageToChat(m) {
 function buildBreedList(data) {
     var html = []
     html.push('<li class="list-group-item bg-warning mx-auto mt-1 mb-1">')
-    html.push('<select name="breeds" id="breeds">')
+    html.push('<select name="breeds" size="10" id="breeds">')
     $.each(JSON.parse(data), function (i, r) {
         html.push(
             '<option value="'
