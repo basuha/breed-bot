@@ -8,8 +8,10 @@ import com.basuha.breed_bot.service.BotService;
 import org.apache.commons.text.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.*;
 
 @RestController
@@ -40,23 +42,31 @@ public class RestWebController {
 			message.setText(String.format(botService.getBotWelcomeMessage(), username)); //if user is absent, welcome message building
 		else
 			message.setText(String.format(botService.getRandomBotGreetingMessage(), username)); //if user is present, greeting message building
-
 		messageRepo.save(message); //save start message into repository
 		return messageRepo.getByUserIdOrderByTimestamp(chatId);
 	}
 
 	@PostMapping(value = "/save")
-	public Response postMessage(@RequestBody String request) { //TODO: add message validation
-		Message message = botService.jsonToMessage(request); //parsing json
-		message.setTimestamp(System.currentTimeMillis());    //set current time
-		Long chatId = message.getUserId();					 //using user id for chat identification
-															 //every chat has it own message queue
-		if (!requestQueue.containsKey(chatId)){				 //is chat`s queue present checking
+	public Response postMessage(@RequestBody Message request) {
+		//parsing json
+		Message message = request;
+
+		//set current time
+		message.setTimestamp(System.currentTimeMillis());
+
+		//using user id for chat identification
+		Long chatId = message.getUserId();
+
+		//every chat has it own message queue
+		if (!requestQueue.containsKey(chatId)){
+
+			//is chat`s queue present checking
 			Queue<Message> queue = new LinkedList<>();
 			requestQueue.put(chatId, queue);
 		}
 
-		requestQueue.get(chatId).offer(message);			 //offer message to chats queue
+		//offer message to chats queue
+		requestQueue.get(chatId).offer(message);
 		return new Response("Done", request); //TODO:
 	}
 

@@ -37,7 +37,7 @@ public class GlobalConfig {
 
     @Bean
     @SneakyThrows
-    public List<String> breedList() {
+    public List<String> breedList() { //breed list json parsing
         BreedListResponse breedListResponse = gson().fromJson(
                 restTemplate().getForObject(breedListUrl, String.class), BreedListResponse.class);
 

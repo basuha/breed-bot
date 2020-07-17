@@ -70,6 +70,7 @@ $(document).ready(function() {
     username = $('input[name="username"]').attr('value')
     botName = '<b>Breed Bot</b>'
     chatId = $('input[name="userId"]').attr('value')
+    console.log(chatId)
     ajaxGet();
     function ajaxGet() {
         $.ajax({
@@ -120,13 +121,17 @@ $(document).ready(function() {
                 'X-CSRF-Token': token
             },
             success : function(result) {
-                $('#getResultDiv .list-group').append(
-                    '<li class="list-group-item bg-light mx-auto mt-1 mb-1">'
-                    + username
-                    + ': '
-                    + formData.text
-                    + '</li>')
-                console.log(result);
+                if (result.status === "Done") {
+                    $('#getResultDiv .list-group').append(
+                        '<li class="list-group-item bg-light mx-auto mt-1 mb-1">'
+                        + username
+                        + ': '
+                        + formData.text
+                        + '</li>')
+                    console.log(result);
+                } else {
+                    console.log(result.message);
+                }
             },
             error : function(e) {
                 alert("Error!")

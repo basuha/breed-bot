@@ -41,7 +41,7 @@ public class WebController {
             model.addAttribute("user",user);
             return "register";
         } else {
-            if (!userService.addUser(user)) { //TODO: пофиксить
+            if (!userService.addUser(user)) {
                 model.addAttribute("usernameError", "User exists!");
                 return "register";
             }

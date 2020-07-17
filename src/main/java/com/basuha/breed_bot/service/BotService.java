@@ -140,7 +140,7 @@ public class BotService {
                 .split(" "));
         ListIterator<String> iterator = parsed.listIterator();
         System.out.println(parsed.size());
-            while (iterator.hasNext()) { //TODO: improve algorithm
+            while (iterator.hasNext()) {
                 String s = iterator.next();
                 if (keywords.contains(s)) {
                     parsedKeywords.add(s);

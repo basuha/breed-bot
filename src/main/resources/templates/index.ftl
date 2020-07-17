@@ -34,7 +34,7 @@
 			<div class="input-group-prepend">
 				<span class="input-group-text" id="username-addon">${name}: </span>
 			</div>
-			<input <#if breed??> value="${breed.value}"</#if> type="text" id="message" class="form-control" placeholder="Message here..." aria-describedby="username-addon">
+			<input <#if breed??> value="${breed.value}"</#if> type="text" id="message" class="form-control" required maxlength="499" placeholder="Message here..." aria-describedby="username-addon">
 			<div class="input-group-append">
 				<button class="btn btn-outline-primary" type="submit">Send</button>
 			</div>

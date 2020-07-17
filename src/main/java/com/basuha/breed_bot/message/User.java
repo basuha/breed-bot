@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -35,11 +36,11 @@ public class User implements UserDetails, Serializable {
     @JsonProperty("id")
     private Long id;
 
-    @NotBlank(message = "Please, enter your name")
+    @Length(min = 5, max = 255, message = "Username length is incorrect")
     @JsonProperty("username")
     private String username;
 
-    @NotBlank(message = "Sorry, password must not be empty")
+    @Length(min = 8, max = 255, message = "Password length is incorrect")
     @JsonProperty("password")
     private String password;
 
