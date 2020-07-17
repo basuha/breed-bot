@@ -11,31 +11,31 @@ function addMessageToChat(m) {
         if (m.is_bot_message === true) {
             if (m.type === "image") {
                 $('#getResultDiv .list-group').append(
-                    '<li class="list-group-item bg-warning ">'
-                    + '<b>Breed Bot</b>'
+                    '<li class="list-group-item bg-warning mx-auto mt-1 mb-1">'
+                    + botName
                     + ' : '
                     + m.text
                     + '</br>'
-                    + '<img class="card-img-top" style="width: 50%; height: 50%" src="' + JSON.parse(m.data).message + '"/>'
+                    + '<img class="card-img-top" style="max-width: 100ex" src="' + JSON.parse(m.data).message + '"/>'
                     + '</li>')
             } else if (m.type === "list") {
                 $('#getResultDiv .list-group').append(
-                    '<li class="list-group-item bg-warning">'
+                    '<li class="list-group-item bg-warning mx-auto mt-1 mb-1">'
                     + botName
                     + ' : '
                     + m.text
                     + '</li>'
-                    + showList(m.data))
+                    + buildBreedList(m.data))
             } else {
                 $('#getResultDiv .list-group').append(
-                    '<li class="list-group-item bg-warning">'
+                    '<li class="list-group-item bg-warning mx-auto mt-1 mb-1">'
                     + botName
                     + ' : '
                     + m.text)
             }
         } else {
             $('#getResultDiv .list-group').append(
-                '<li class="list-group-item">'
+                '<li class="list-group-item bg-light mx-auto mt-1 mb-1">'
                 + username
                 + " : "
                 + m.text
@@ -43,8 +43,9 @@ function addMessageToChat(m) {
         }
     }
     scrollDown()
-    function showList(data) {
+    function buildBreedList(data) {
         var html = [];
+        html.push('<li class="list-group-item bg-warning mx-auto mt-1 mb-1">')
         html.push('<select name="breeds" id="breeds">')
         $.each(JSON.parse(data), function (i, r) {
             html.push(
@@ -56,27 +57,9 @@ function addMessageToChat(m) {
             )
         })
         html.push('</select>')
+        html.push('</li>')
         return html.join("");
     }
-}
-
-function cleanDialog() {
-    $.ajax({
-        type: "GET",
-        url: window.location + "breed-bot?chatId=" + chatId,
-        success: function (result) {
-            $('#getResultDiv ul').empty();
-            $.each(result, function (i, m) {
-                addMessageToChat(m)
-            });
-            scrollDown()
-            console.log("Success: ", result);
-        },
-        error: function (e) {
-            $("#getResultDiv").html("<strong>Error</strong>");
-            console.log("ERROR: ", e);
-        }
-    });
 }
 
 $(document).ready(function() {
@@ -135,7 +118,7 @@ $(document).ready(function() {
             },
             success : function(result) {
                 $('#getResultDiv .list-group').append(
-                    '<li class="list-group-item">'
+                    '<li class="list-group-item bg-light mx-auto mt-1 mb-1">'
                     + username
                     + ': '
                     + formData.text
@@ -173,23 +156,3 @@ $(document).ready(function() {
         });
     }
 })
-
-//
-// $.ajax({
-// 	url: '<url-адрес>',
-// 	type: 'post',
-// 	data: '<отправляемые_данные>', // можно строкой, а можно, например, так: $('input[type="text"], input[type="radio"]:checked, input[type="checkbox"]:checked, select, textarea')
-// 	dataType: 'json',
-// 	beforeSend: function() {
-// 		$('#sendajax').button('loading');
-// 	},
-// 	complete: function() {
-// 		$('#sendajax').button('reset');
-// 	},
-// 	success: function(json) {
-// 		// какие-то действия с полученными данными
-// 	},
-// 	error: function(xhr, ajaxOptions, thrownError) {
-// 		alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-// 	}
-// });
