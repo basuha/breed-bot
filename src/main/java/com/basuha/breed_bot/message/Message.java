@@ -35,7 +35,7 @@ public class Message implements Serializable {
     private Long id;
 
     @NotBlank(message = "Sorry, message is can not be empty")
-    @Length(max = 255, message = "Sorry, message is too long (longer than 255)")
+    @Length(max = 500, message = "Sorry, message is too long (longer than 500)")
     @JsonProperty("text")
     private String text;
 

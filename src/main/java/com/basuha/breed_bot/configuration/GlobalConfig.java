@@ -1,10 +1,9 @@
 package com.basuha.breed_bot.configuration;
 
-import com.basuha.breed_bot.message.BreedList;
-import com.basuha.breed_bot.message.BreedListResponse;
+import com.basuha.breed_bot.message.breed_list.BreedList;
+import com.basuha.breed_bot.message.breed_list.BreedListResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -13,10 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Configuration
 public class GlobalConfig {

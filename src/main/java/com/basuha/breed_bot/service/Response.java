@@ -1,6 +1,7 @@
-package com.basuha.breed_bot.message;
+package com.basuha.breed_bot.service;
 
 
+import com.basuha.breed_bot.message.Message;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

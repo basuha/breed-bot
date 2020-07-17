@@ -1,4 +1,4 @@
-package com.basuha.breed_bot.message;
+package com.basuha.breed_bot.message.breed_list;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

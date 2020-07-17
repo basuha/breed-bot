@@ -5,5 +5,6 @@
     <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V2__Add_message_timestamp.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V3__Increase_data_capacity.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V4__Add_message_keyword.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V5__Increase_text_capacity.sql" dialect="PostgreSQL" />
   </component>
 </project>

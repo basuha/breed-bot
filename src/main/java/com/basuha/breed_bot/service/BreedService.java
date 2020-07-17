@@ -1,23 +1,15 @@
 package com.basuha.breed_bot.service;
 
-import com.basuha.breed_bot.message.BreedList;
-import com.basuha.breed_bot.message.BreedListResponse;
 import com.basuha.breed_bot.message.Message;
-import com.basuha.breed_bot.message.Response;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import lombok.Getter;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.util.*;
 
 @Service
@@ -113,29 +105,35 @@ public class BreedService {
                 .replaceAll(messageSplitRegex, " ")
                 .split(" "));
         ListIterator<String> iterator = parsed.listIterator();
-
-        while (iterator.hasNext()) { //TODO: improve algorithm
-            String s = iterator.next();
-            if (keywords.contains(s))
-                parsedKeywords.add(s);
-
-            if (iterator.hasNext()) {
-                String next = iterator.next();
-                if (breedList.contains(s + " " + next)) {
-                    parsedKeywords.add(s + " " + next);
+        System.out.println(parsed.size());
+            while (iterator.hasNext()) { //TODO: improve algorithm
+                String s = iterator.next();
+                if (keywords.contains(s)) {
+                    parsedKeywords.add(s);
                     continue;
                 }
-            }
 
-            for (String breed : breedList) {
-                if (breed.contains(" ")) {
-                    String mainBreed = breed.split(" ")[1];
-                    if (mainBreed.equals(s)) {
-                        parsedKeywords.add(s);
+                if (breedList.contains(s)) {
+                    parsedKeywords.add(s);
+                    continue;
+                }
+
+                if (iterator.hasNext()) {
+                    String next = iterator.next();
+                    if (breedList.contains(s + " " + next)) {
+                        parsedKeywords.add(s + " " + next);
+                    }
+                }
+
+                for (String breed : breedList) {
+                    if (breed.contains(" ")) {
+                        String mainBreed = breed.split(" ")[1];
+                        if (mainBreed.equals(s)) {
+                            parsedKeywords.add(s);
+                        }
                     }
                 }
             }
-        }
 
         return parsedKeywords;
     }

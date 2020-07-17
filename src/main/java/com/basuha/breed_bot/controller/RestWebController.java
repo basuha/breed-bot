@@ -1,18 +1,15 @@
 package com.basuha.breed_bot.controller;
 
 import com.basuha.breed_bot.message.Message;
-import com.basuha.breed_bot.message.Response;
+import com.basuha.breed_bot.service.Response;
 import com.basuha.breed_bot.repository.MessageRepo;
 import com.basuha.breed_bot.repository.UserRepo;
 import com.basuha.breed_bot.service.BreedService;
 import org.apache.commons.text.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.*;
 
 @RestController
