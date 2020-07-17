@@ -117,7 +117,9 @@ public class RestWebController {
 						response.setType("image");
 					}
 					case "hello","hi" -> {
-						response.setText(breedService.getRandomBotGreetingMessage());
+						response.setText(String.format(
+								breedService.getRandomBotGreetingMessage(),
+								userRepo.findById(chatId).get().getUsername()));
 					}
 //				case "help" -> { //TODO: help command
 //
